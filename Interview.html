@@ -53,6 +53,9 @@
   .qtext{font-size:clamp(25px,3.4vw,38px);font-weight:800;line-height:1.14;margin:10px 0 6px;color:var(--text)}
   .why{color:var(--muted);font-size:14px;margin-bottom:8px}
   .pickhint{display:inline-flex;align-items:center;gap:7px;background:var(--green-50);color:var(--green-600);border:1px solid var(--green-500);border-radius:999px;padding:5px 13px;font-size:13px;font-weight:700;margin-bottom:22px}
+  .genbanner{display:none;align-items:center;gap:8px;background:var(--blue-50);color:var(--blue-600);border:1px solid var(--blue-500);border-radius:999px;padding:6px 13px;font-size:13px;font-weight:700;margin:-6px 0 18px}
+  .gear{width:38px;height:38px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;display:grid;place-items:center;flex:0 0 auto;opacity:.5}
+  .gear:hover{border-color:var(--red-500)}
   .options{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:11px}
   .opt{display:flex;align-items:center;gap:12px;cursor:pointer;background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:14px 15px;font-size:15.5px;color:var(--body);transition:.12s}
   .opt:hover{border-color:var(--blue-500);transform:translateY(-1px)}
@@ -127,6 +130,7 @@
         <div class="ohdate" id="ohdate">—</div>
         <div class="ohclock" id="ohclock">—</div>
       </div>
+      <button class="gear" id="llmbtn" title="AI options: off — click to enable">✨</button>
       <button class="toggle" id="toggle" title="Light / dark">🌙</button>
     </div>
   </header>
@@ -159,6 +163,7 @@
       <div class="qtext" id="qtext"></div>
       <div class="why" id="why"></div>
       <div id="pickhint"></div>
+      <div class="genbanner" id="genbanner"></div>
       <div id="inputarea"></div>
       <div class="nav">
         <button class="nb" id="back">← Back</button>
@@ -242,9 +247,45 @@ function currentIndustryKey(){
   var low=(''+first).toLowerCase();
   var kw={welding:['weld','underwater','dive'],roofing:['roof'],detailing:['detail','car wash','auto'],dog:['dog','pet','groom','puppy'],hotsauce:['sauce','condiment','pepper'],mushroom:['mushroom','fungi','farm'],landscaping:['landscap','lawn','yard','garden'],llama:['llama','alpaca'],haunted:['haunt','scare','horror','spooky'],whittling:['whittl','carv','wood'],drone:['drone','light show'],pickleball:['pickleball','paddle']};
   for(var k in kw){ for(var j=0;j<kw[k].length;j++){ if(low.indexOf(kw[k][j])>=0) return k; } }
-  return null;
+  var slug=low.replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  return slug ? 'custom:'+slug : null;
 }
 function optsFor(it){ var k=currentIndustryKey(); if(k && typeof INDUSTRY!=='undefined' && INDUSTRY[k] && INDUSTRY[k][it.key]) return INDUSTRY[k][it.key]; return it.opts||[]; }
+
+/* ---- Optional LLM generation for made-up industries (key stays in this browser only) ---- */
+function industryName(){ var a=answers.company_does; if(!Array.isArray(a)||!a.length) return ''; return (''+a[0]).trim(); }
+var genState={busy:false,key:null,err:null};
+function llmKey(){ try{ return localStorage.getItem('foundry-anthropic-key')||''; }catch(e){ return ''; } }
+function llmModel(){ try{ return localStorage.getItem('foundry-anthropic-model')||'claude-opus-4-8'; }catch(e){ return 'claude-opus-4-8'; } }
+try{ if(typeof INDUSTRY!=='undefined'){ var _c=JSON.parse(localStorage.getItem('foundry-industry-cache')||'{}'); for(var _k in _c) INDUSTRY[_k]=_c[_k]; } }catch(e){}
+async function generateIndustry(name,key){
+  var kx=llmKey(); if(!kx) return;
+  genState.busy=true; genState.key=key; genState.err=null; render();
+  try{
+    var keys=["services","customers","lead_sources","biggest_time_sink","keeps_me_up","clone_this_employee","ninety_day_goal"], props={};
+    keys.forEach(function(p){ props[p]={type:"array",items:{type:"string"}}; });
+    var schema={type:"object",additionalProperties:false,properties:props,required:keys};
+    var prompt="Generate fun multiple-choice options for a live 'invent a business' interview game. The business is: \""+name+"\". Return 7 arrays, each with 8 short options (2-6 words each), mixing about 4 normal/plausible and 4 weird/funny, all genuinely specific to this exact business. Keys: services (what they sell), customers (who buys), lead_sources (how leads come in), biggest_time_sink (what eats their time), keeps_me_up (their worries), clone_this_employee (the one role they would clone), ninety_day_goal (a 90-day goal). Keep options punchy and on-theme.";
+    var body={ model:llmModel(), max_tokens:1500, output_config:{ format:{ type:"json_schema", schema:schema } }, messages:[{role:"user",content:prompt}] };
+    var r=await fetch("https://api.anthropic.com/v1/messages",{ method:"POST",
+      headers:{ "content-type":"application/json", "x-api-key":kx, "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" },
+      body:JSON.stringify(body) });
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    var data=await r.json();
+    var text=(data.content||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join("");
+    var obj=JSON.parse(text);
+    if(typeof INDUSTRY!=='undefined') INDUSTRY[key]=obj;
+    try{ var cache=JSON.parse(localStorage.getItem('foundry-industry-cache')||'{}'); cache[key]=obj; localStorage.setItem('foundry-industry-cache',JSON.stringify(cache)); }catch(e){}
+  }catch(e){ genState.err=''+((e&&e.message)||e); }
+  genState.busy=false; render();
+}
+function maybeGenerate(){
+  var k=currentIndustryKey();
+  if(!k || k.indexOf('custom:')!==0) return;
+  if(typeof INDUSTRY==='undefined' || INDUSTRY[k]) return;
+  if(genState.busy || !llmKey()) return;
+  generateIndustry(industryName(), k);
+}
 
 const LABELS={company_does:"Industry",services:"Services",customers:"Customers",tagline:"Tagline",lead_sources:"Leads come from",current_software:"Tools today",biggest_time_sink:"Biggest time sink",keeps_me_up:"Keeps us up",clone_this_employee:"Clone this role",revenue_model:"How we earn",team_size_today:"Team size",region:"Service area",ninety_day_goal:"90-day goal",accent:"Brand color",company_name:"Company name"};
 const answers = {}; let i = 0;
@@ -258,6 +299,19 @@ const bar=$("bar"),count=$("count"),qnum=$("qnum"),qtext=$("qtext"),why=$("why")
 $("toggle").textContent=document.documentElement.getAttribute('data-theme')==='dark'?'☀️':'🌙';
 $("toggle").onclick=()=>{var d=document.documentElement,n=d.getAttribute('data-theme')==='dark'?'light':'dark';
   d.setAttribute('data-theme',n);localStorage.setItem('foundry-theme',n);$("toggle").textContent=n==='dark'?'☀️':'🌙';};
+
+/* AI-options setup button (stores the key in this browser only) */
+function updateLlmBtn(){ var b=$("llmbtn"); if(!b)return; var on=!!llmKey(); b.style.opacity=on?'1':'0.5'; b.title=on?'AI options: ON — made-up industries auto-generate':'AI options: off — click to enable'; }
+$("llmbtn").onclick=function(){
+  var cur=llmKey();
+  var msg=cur ? 'AI options are ON — your key is saved on this device only, never uploaded.\n\nPaste a new key to replace it, type REMOVE to turn it off, or Cancel to keep it.'
+              : 'Turn on AI-generated options for made-up industries?\n\nPaste your Anthropic API key (sk-ant-…). It is stored only in this browser and never uploaded.';
+  var v=prompt(msg,''); if(v===null) return; v=v.trim();
+  if(v.toUpperCase()==='REMOVE'){ try{localStorage.removeItem('foundry-anthropic-key');}catch(e){} }
+  else if(v){ try{localStorage.setItem('foundry-anthropic-key',v);}catch(e){} }
+  updateLlmBtn(); genState.err=null; render();
+};
+updateLlmBtn();
 
 /* Open House — live Central-time clock + today's date */
 function updateClock(){
@@ -283,6 +337,13 @@ function render(){
   $("back").style.visibility=i===0?"hidden":"visible";
   $("next").textContent=i===Q.length-1?"Build it 🚀":"Next →";
   renderTracker(); saveState();
+  var _gk=currentIndustryKey(), gb=$("genbanner");
+  if(gb){
+    if(genState.busy && genState.key===_gk){ gb.style.display='inline-flex'; gb.textContent='✨ Tailoring options to "'+industryName()+'" with AI…'; }
+    else if(genState.err && _gk && (''+_gk).indexOf('custom:')===0 && (typeof INDUSTRY==='undefined'||!INDUSTRY[_gk])){ gb.style.display='inline-flex'; gb.textContent='✨ Could not reach AI — using general options'; }
+    else gb.style.display='none';
+  }
+  maybeGenerate();
 }
 function renderTracker(){
   const t=$("tracker"); if(!t)return;
