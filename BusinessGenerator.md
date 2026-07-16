@@ -55,19 +55,13 @@ Read `interview.md` (or the pasted build prompt). It carries the audience's answ
 |---|---|
 | `company_does` | industry, positioning, everything |
 | `services` (a list) | **website nav + services section**, SOPs, org |
-| `customers` | CRM, website tone, marketing |
+| `customers` | CRM, website tone, marketing, testimonials |
 | `tagline` | **website hero headline** |
-| `lead_sources` | funnel, marketing channels |
-| `current_software` | integrations, DB, migration story |
-| `biggest_time_sink` | which SOPs, automation ROI |
-| `keeps_me_up` | positioning, roadmap, Trust story |
 | `clone_this_employee` | **flagship AI Employee** |
-| `revenue_model` | pricing, finance |
-| `team_size_today` | starting numbers, human headcount |
-| `region` | service-area map, local marketing |
-| `ninety_day_goal` | 30/60/90 roadmap |
 | `accent` | brand accent (Cherry / Leaf / Berry) |
 | `company_name` | the name |
+
+Only these **7** are asked — the interview is deliberately short, and every question is something you'll *see* in the walkthrough. **Infer everything else realistically from the industry** (region, pricing, team size, lead sources, revenue model, the roadmap) and record the inferences in `docs/assumptions.md`.
 
 Parse into structured facts. Blank/ambiguous → infer realistically, record in `docs/assumptions.md`, never block. If the interview is essentially empty (a dry run), invent a vivid **residential landscaping** company, "Evergreen Grounds Co.," and build the full company from it.
 
@@ -100,10 +94,10 @@ Create this tree inside a new folder named for the company (kebab-cased), e.g. `
 ├── knowledge/index.html        ← searchable KB + "Cory" chatbot + 3 one-pager docs (downloadable)
 ├── sops/index.html
 ├── finance/model.html
-├── roadmap/index.html
-├── learning/path.html
+├── roadmap/index.html          ← expanded plan (§7.14): Gantt, hiring, KPIs, risks
+├── boardroom/index.html        ← THE CLOSER (§7.15): AI board meeting + "Ask the board"
 ├── src/README.md, CLAUDE.md, architecture.html
-├── docs/deployment.html, assumptions.md
+├── docs/assumptions.md
 ```
 
 > Note: there is **no `automations/` folder** — the end-to-end flows now live inside the **Trust dashboard** and the **database** page as Mermaid diagrams.
@@ -123,9 +117,9 @@ Create this tree inside a new folder named for the company (kebab-cased), e.g. `
 
 **Phase D — Intelligence** — 9. `dashboards/executive.html` + `operations.html`; `marketing/plan.html`; `sales/funnel.html`; `analytics/index.html`; `finance/model.html`.
 
-**Phase E — The plan & the hub** — 10. `sops`, `roadmap`, `learning`, `portals`, `src/*`, `docs/deployment.html`. 11. `knowledge/index.html` (§7.18) — built after the other artifacts so it can index them.
+**Phase E — The plan & the hub** — 10. `sops`, `roadmap`, `portals`, `src/*`. 11. `knowledge/index.html` (§7.18) — built after the other artifacts so it can index them.
 
-**Phase F — The cockpit** — 12. `CommandCenter/index.html` LAST, wired to every artifact (§8).
+**Phase F — The closer & the cockpit** — 12. `boardroom/index.html` (§7.15) — the finale. 13. `CommandCenter/index.html` LAST, wired to every artifact (§8).
 
 **Phase G — Prove it & reveal** — 12. Validate (§13). Fix. Re-validate. 13. Launch the Command Center (§14).
 
@@ -171,15 +165,27 @@ Build a CRM that reads like Salesforce and **is demoable live**:
 - Below the board, a **contacts table** from `customers_sample`.
 - Include a tiny "▶ Demo: auto-advance a deal" button that programmatically moves one card a stage, in case dragging is awkward on the projector.
 
-### 7.7 Trust Dashboard — `trust/index.html` (replaces Automations)
-Grounded in Colaberry's **Architecture of Trust** (from *Trust Before Intelligence*, Ram Katamaraja). This reframes the company as *trustworthy* AI, not just automated. Three pillars:
-- **INPACT™** — what agents need: **I**nstant, **N**atural, **P**ermitted, **A**daptive, **C**ontextual, **T**ransparent. Show an overall **INPACT score (0–100)** as a big gauge, plus each of the 6 dimensions scored with a short, company-specific note (e.g. "Instant: every lead answered in <60s").
-- **7-Layer Architecture** — how it's built: Storage → Real-Time → Semantic → Intelligence → Governance → Observability → Orchestration. Render as a **Mermaid** stacked/`graph TD` diagram with each layer's status.
-- **GOALS™** — how success is measured: **G**overnance, **O**bservability, **A**vailability, **L**exicon, **S**olid. Five target tiles with values.
-- A **"Trust journey"** callout mirroring the book's case study: this company's INPACT rose from ~28 to ~85 in 90 days (tie to the roadmap), with the "95% of AI projects fail without trust" framing. Include a **Mermaid flow** of a trusted end-to-end business workflow (e.g. Lead → Permitted action → Transparent log → Booked → Invoiced), labeling nodes with the INPACT dimension each step satisfies. This is where the old automation flows live now.
+### 7.7 Trust Dashboard — `trust/index.html` (the differentiator — build it DEEP)
+Grounded in Colaberry's **Architecture of Trust** (from *Trust Before Intelligence*, Ram Katamaraja). The presenter discusses these principles on stage, so make it **detailed and quotable**, not a scorecard. Three pillars:
 
-### 7.8 Marketing — `marketing/plan.html` (more Power BI charts)
-Lead with a **Power-BI-style chart wall** (4–6 inline-SVG visuals): channel-ROI bars, CAC-vs-LTV, a spend donut, a monthly-leads trend, a campaign-performance matrix, and a conversion funnel. Add a channels table (with a totals row), a 90-day campaign calendar, target economics (CAC vs LTV callout), and tie each channel/campaign to a marketing AI Employee. Every chart gets a one-line "AI insight."
+**INPACT™ — the six elements of trust (the centerpiece).** Frame it: *"Just as Tony Robbins named six human needs, INPACT™ names six architectural needs an AI must meet to earn trust. All six are required — miss one and you rejoin the 95% of AI projects that fail."* Show an overall **INPACT gauge (0–100, from `trust.inpact_score`)**, then a rich card for EACH of the six — letter, name, the **principle tagline**, "What it means", "Why it matters", the company's **score bar** (from `trust.inpact`), a **company-specific example** (from `trust.notes`), and the **target metric**:
+- **I — Instant · "Speed builds confidence."** Respond in <2s (sub-second ideal); users bail after ~3s. Target: <2s p95.
+- **N — Natural · "Understanding builds connection."** Understand plain language at 75–85%+; no special syntax. Target: 80%+ understanding.
+- **P — Permitted · "Security builds safety."** Dynamic RBAC + ABAC authorization, audit trails, human-in-the-loop for critical actions. Target: ABAC <10ms + 100% audited.
+- **A — Adaptive · "Improvement builds reliability."** Learns continuously from feedback (weekly, not quarterly). Target: weekly loop, 1–2%/wk gains.
+- **C — Contextual · "Completeness builds accuracy."** Real-time data from 5–8+ systems, not one source. Target: 5+ sources, <1hr freshness.
+- **T — Trusted · "Transparency builds confidence."** Full audit trails, citations, inspectable reasoning. Target: 100% audit + source citations.
+Include a highlighted **"Talk track — the principles"** panel: 1–2 speakable one-liners per element for the human on stage.
+
+**7-Layer Architecture — how it's built.** Storage → Real-Time → Semantic → Intelligence → Governance → Observability → Orchestration. A **Mermaid** `graph TD` stack, each layer ✅ with a one-line note, plus a needs→layers map ("Instant needs Layer 2; Permitted needs Layer 5; Trusted needs Layer 6").
+
+**GOALS™ — how it's measured.** **G**overnance, **O**bservability, **A**vailability, **L**exicon, **S**olid — five tiles with values (`trust.goals`) and a one-line meaning each.
+
+**Trust journey + workflow.** A **28 → 85 in 90 days, 477% ROI** callout tied to the roadmap, and a **Mermaid** flow of a trusted end-to-end workflow labeling each node with the INPACT dimension it satisfies. One-liner for the room: *"INPACT is the destination, the 7 layers are the vehicle, GOALS is the maintenance."*
+
+### 7.8 Marketing — `marketing/plan.html` (reports **plus real creative**)
+Three parts. **(1) Report wall:** a Power-BI-style set of 4–6 inline-SVG charts (channel-ROI bars, CAC-vs-LTV, spend donut, monthly-leads trend, conversion funnel), a channels table with a totals row, a 90-day campaign calendar, one tight "AI insight" per chart. **(2) Social ad gallery — 4 designed ads** (Instagram reel, Facebook retargeting, a real Google search-ad format, one premium/aspirational): each a proper creative mockup with an inline-SVG visual (not a gray box), platform chip, a scroll-stopping headline, tight body copy, and a CTA. **(3) Long-form write-ups (real, well-written copy):** a blog post (title + subheads + 5–7 crafted paragraphs + CTA), a proper press release (FOR IMMEDIATE RELEASE, dateline, lede, founder quote with personality, boilerplate, ###), an email (subject + 2 A/B alternates + preview + body), and 3 social captions with hooks + hashtags. Attribute each piece to the responsible marketing AI Employee (`.badge.ai`).
+> **Creative bar (do not skimp):** headlines are short, concrete, with a hook or twist; body copy is specific (numbers, guarantees, real objections); every piece has a reason to act now. No "unlock / elevate / in today's fast-paced world," no AI hedging. Use the audience's `tagline` as a confident signature sign-off. Make it something the room would screenshot. **For the live build, generate this section with a stronger model / higher effort than the rest** — weak marketing copy is the most noticeable failure.
 
 ### 7.9 Sales — `sales/funnel.html`
 A visual funnel with real math from `pipeline` (counts + stage %), average deal, pipeline value, and a short discovery-call script the flagship agent uses. Include a **Mermaid** sequence of a discovery call.
@@ -198,17 +204,19 @@ Trends, a cohort/retention view, seasonality note, a 90-day forecast, each chart
 ### 7.13 Finance — `finance/model.html`
 A 12-month projection table (revenue, COGS, gross margin, opex, net, cash) + assumptions + a small SVG chart. A callout: the AI Employees cost ≈$0 marginal vs. the human-equivalent salaries (make ROI obvious; echo the book's "477% ROI" energy).
 
-### 7.14 Roadmap — `roadmap/index.html`
-30/60/90 (Day 1 = today) + a 12-month, 4-quarter roadmap. Tie the 90-day arc to the Trust journey (INPACT 28→85).
+### 7.14 Roadmap — `roadmap/index.html` (a real operating plan — expand it)
+Not a three-column list — a detailed plan: a **North Star** line (where the company is in 12 months) + a 3-metric from→to strip; a **Mermaid `gantt`** of the first two quarters (with a couple of dependencies); **30/60/90 initiative tables** where each row has Owner (a real role/AI Employee, `.badge.ai`), Dependency, Success metric (target), and Status; a **hiring & workforce plan** (when to add people/agents, vs. the ~$0 AI cost line); a **KPIs-by-phase** table (targets at Day 30/60/90); a **risks & mitigations** table (4–5 rows); and the **12-month, 4-quarter** roadmap with 3 key results each. Tie the arc to the Trust journey (INPACT 28→85). Make it long, scannable, and genuinely useful.
 
-### 7.15 Learning path — `learning/path.html`
-Map each major artifact → the Accelerator lesson that teaches it (Command Center → Experience Studio; AI Employees → Composer; Trust/architecture → the graph engine & MCP; the whole project → Project Builder). End with a bold **"You just watched Lesson One."**
+### 7.15 First Board Meeting — `boardroom/index.html` (THE CLOSER)
+The finale a presenter clicks last, replacing the old Learning Path. The generated **AI leadership team convenes** to brief the founder (the audience volunteer):
+- A "**Convene the board**" button that reveals ~6 AI executives one at a time (staggered) — theatrical.
+- One card per exec (real roles from `workforce` — Chief of Staff, CFO, Sales Director, Marketing Director, Governance/Trust, and the flagship): SVG monogram, `● Active`, a **📈 one-line recommendation** and a **⚠️ one-line risk flag**, specific to this business.
+- The **CEO's charge to the founder**: a crisp 90-day directive (3 priorities from the roadmap) ending on a rallying line that fits the tagline.
+- **"Ask the board"** — a text box + 3 suggested questions; route each to the most relevant exec and answer from an embedded, offline knowledge set (no network).
+- **The close:** a full-width banner — big **"This is Lesson One."** and the "built live in ~15 minutes / students spend twelve weeks" line. This carries the emotional button the Learning Path used to.
 
 ### 7.16 Source & architecture — `src/README.md`, `src/CLAUDE.md`, `src/architecture.html`
 `architecture.html`: a system diagram (Mermaid) — surfaces → app/API → database → AI agent layer → MCP servers → integrations, mapped to the 7 trust layers. `README.md`/`CLAUDE.md`: what the real repo/agent would be, closing the loop between demo and program.
-
-### 7.17 Deployment — `docs/deployment.html`
-Hosting, domain, integrations (CRM, calendar, telephony, email/SMS, payments), a go-live checklist, Day-1 ops.
 
 ### 7.18 Knowledge Base — `knowledge/index.html` (search + "Cory" chatbot + one-pagers)
 A single hub, modeled on Colaberry's enterprise knowledge base (`enterprise.colaberry.ai/knowledge`), that makes the whole company searchable and explainable. Build it **after** the other artifacts so it can index them. Everything is self-contained and offline.
@@ -233,7 +241,7 @@ Highlight interview-derived values (`.hl`) throughout, and keep the whole page o
 
 ## 8. The Command Center (full spec)
 
-`CommandCenter/index.html` is the most important page. Use `templates/command-center.html` (already light-themed with the toggle and a **Trust Dashboard** card in place of Automations). Personalize: company name + SVG monogram, tagline, a **KPI hero row** (Revenue, Customers, AI Employees, **Trust/INPACT**, Pipeline, CSAT), a responsive **module grid** (one card per artifact area, including 🛡️ **Trust Dashboard** → `../trust/index.html` and 📚 **Knowledge Base** → `../knowledge/index.html`), an **AI activity ticker** (believable events from `company.json`, including a Governance/Trust event), and the closing "twelve minutes / twelve weeks" line. Large type, high contrast (it will be projected), light default with the toggle.
+`CommandCenter/index.html` is the most important page. Use `templates/command-center.html` (already light-themed with the toggle and a **Trust Dashboard** card in place of Automations). Personalize: company name + SVG monogram, tagline, a **KPI hero row** (Revenue, Customers, AI Employees, **Trust/INPACT**, Pipeline, CSAT), a responsive **module grid** (one card per artifact area, including 🛡️ **Trust Dashboard** → `../trust/index.html`, 📚 **Knowledge Base** → `../knowledge/index.html`, and 🏛️ **First Board Meeting** → `../boardroom/index.html` as the closing card — **no Learning Path or Deployment cards**), an **AI activity ticker** (believable events from `company.json`, including a Governance/Trust event), and the closing "twelve minutes / twelve weeks" line. Large type, high contrast (it will be projected), light default with the toggle.
 
 ---
 
@@ -335,15 +343,16 @@ Before launching, verify **every** item. If any fails, fix and re-run.
 - [ ] `CommandCenter/index.html`
 - [ ] `website/index.html`  (hero + services nav from answers)
 - [ ] `crm/index.html`  (draggable pipeline)
-- [ ] `trust/index.html`  (INPACT gauge + 7-Layer Mermaid + GOALS)
+- [ ] `trust/index.html`  (INPACT gauge + **all six elements detailed** + talk-track panel + 7-Layer Mermaid + GOALS)
 - [ ] `dashboards/executive.html`, `operations.html`
-- [ ] `marketing/plan.html`  (≥4 Power-BI charts), `sales/funnel.html`
+- [ ] `marketing/plan.html`  (≥4 Power-BI charts + **4-ad gallery + real write-ups**), `sales/funnel.html`
 - [ ] `database/schema.html`  (business-process Mermaid + ER)
 - [ ] `workforce/org-chart.html` (≥25 roles, AI/human mix, Mermaid), `ai-employees.html`
-- [ ] `analytics/index.html`, `finance/model.html`, `sops/index.html`, `roadmap/index.html`, `learning/path.html`
+- [ ] `analytics/index.html`, `finance/model.html`, `sops/index.html`, `roadmap/index.html`  (expanded: Gantt + hiring + KPIs + risks)
 - [ ] `knowledge/index.html`  (typed search + Cory chatbot + ≥3 one-pagers with Mermaid + working Download)
+- [ ] `boardroom/index.html`  (AI board meeting + Ask-the-board + the "Lesson One" close)
 - [ ] `portals/customer-portal.html`, `admin-portal.html`
-- [ ] `src/README.md`, `CLAUDE.md`, `architecture.html`; `docs/deployment.html`, `assumptions.md`
+- [ ] `src/README.md`, `CLAUDE.md`, `architecture.html`; `docs/assumptions.md`
 
 **Integrity:**
 - [ ] Every Command Center module card links to a file that exists (incl. Trust; no Automations link).
