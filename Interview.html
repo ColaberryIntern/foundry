@@ -36,37 +36,28 @@
   .bar{height:100%;width:0;background:linear-gradient(90deg,var(--red-500),var(--green-500));transition:width .35s ease}
   .count{color:var(--muted);font-size:13px;margin-top:8px;text-align:right}
   main{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
-  .card{width:min(940px,94vw);background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:40px 44px;box-shadow:0 12px 40px rgba(26,26,26,.10);animation:rise .3s ease}
+  .card{width:min(980px,95vw);background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:38px 44px;box-shadow:0 12px 40px rgba(26,26,26,.10);animation:rise .3s ease}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .qnum{color:var(--red-500);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:13px}
-  .qtext{font-size:clamp(26px,3.6vw,40px);font-weight:800;line-height:1.14;margin:10px 0 6px;color:var(--text)}
-  .why{color:var(--muted);font-size:14px;margin-bottom:26px}
-  .options{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-  .opt{display:flex;align-items:center;gap:12px;cursor:pointer;background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:15px 16px;font-size:16px;color:var(--body);transition:.15s}
+  .qtext{font-size:clamp(25px,3.4vw,38px);font-weight:800;line-height:1.14;margin:10px 0 6px;color:var(--text)}
+  .why{color:var(--muted);font-size:14px;margin-bottom:8px}
+  .pickhint{display:inline-flex;align-items:center;gap:7px;background:var(--green-50);color:var(--green-600);border:1px solid var(--green-500);border-radius:999px;padding:5px 13px;font-size:13px;font-weight:700;margin-bottom:22px}
+  .options{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:11px}
+  .opt{display:flex;align-items:center;gap:12px;cursor:pointer;background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:14px 15px;font-size:15.5px;color:var(--body);transition:.12s}
   .opt:hover{border-color:var(--blue-500);transform:translateY(-1px)}
-  .opt.sel{border-color:var(--red-500);background:var(--red-50)}
-  .box{width:18px;height:18px;border-radius:50%;border:2px solid var(--n300);flex:0 0 auto}
-  .opt.sel .box{border-color:var(--red-500);background:var(--red-500);box-shadow:inset 0 0 0 3px var(--surface)}
-  .multi .box{border-radius:6px}
-  .otherwrap{margin-top:16px}
-  input.txt,.tagfield input{width:100%;background:var(--surface);border:2px solid var(--border);border-radius:14px;color:var(--text);font-size:17px;font-family:var(--font);padding:16px 18px}
-  input.txt:focus,.tagfield input:focus{outline:none;border-color:var(--red-500)}
-  /* tags */
-  .tags{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px;min-height:8px}
-  .tag{display:inline-flex;align-items:center;gap:8px;background:var(--green-50);color:var(--green-600);border:1px solid var(--green-500);border-radius:999px;padding:7px 14px;font-size:15px;font-weight:600}
-  .tag b{color:var(--text);font-weight:600}
-  .tag button{border:none;background:transparent;color:var(--green-600);cursor:pointer;font-size:16px;line-height:1;padding:0}
-  .suggest{margin-top:12px;color:var(--muted);font-size:13px}
-  .chipadd{display:inline-block;background:var(--sunken);border:1px dashed var(--border);border-radius:999px;padding:5px 12px;font-size:13px;margin:4px 4px 0 0;cursor:pointer;color:var(--body)}
-  .chipadd:hover{border-color:var(--green-500);color:var(--green-600)}
-  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px}
+  .opt.sel{border-color:var(--red-500);background:var(--red-50);color:var(--text);font-weight:600}
+  .box{width:20px;height:20px;border-radius:6px;border:2px solid var(--n300);flex:0 0 auto;display:grid;place-items:center;color:#fff;font-size:13px}
+  .opt.sel .box{border-color:var(--red-500);background:var(--red-500)}
+  .otherwrap{margin-top:14px}
+  input.txt{width:100%;background:var(--surface);border:2px solid var(--border);border-radius:14px;color:var(--text);font-size:17px;font-family:var(--font);padding:15px 18px}
+  input.txt:focus{outline:none;border-color:var(--red-500)}
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
   button.nb{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);padding:13px 22px;font-size:16px;font-family:var(--font);transition:.15s}
   button.nb:hover{border-color:var(--red-500)}
   .primary{background:var(--red-500);color:#fff;border:none;font-weight:800;box-shadow:0 6px 18px rgba(251,40,50,.28)}
   .primary:hover{background:var(--red-600)}
   .hint{color:var(--muted);font-size:13px}
   kbd{background:var(--sunken);border:1px solid var(--border);border-radius:6px;padding:2px 7px;font-size:12px}
-  /* summary */
   .sum{display:none}
   .sum.show{display:block;animation:rise .3s ease}
   .sum h2{font-size:clamp(26px,4vw,42px);margin:0 0 4px;color:var(--text)}
@@ -89,7 +80,7 @@
     <div class="logo">F</div>
     <div>
       <h1>AI Business Generator</h1>
-      <div class="sub">Live discovery interview · answer out loud, we build the company for real</div>
+      <div class="sub">Live discovery interview · get the room involved — 3 people, 3 picks per question</div>
     </div>
     <button class="toggle" id="toggle" title="Light / dark">🌙</button>
   </header>
@@ -104,10 +95,11 @@
       <div class="qnum" id="qnum"></div>
       <div class="qtext" id="qtext"></div>
       <div class="why" id="why"></div>
+      <div id="pickhint"></div>
       <div id="inputarea"></div>
       <div class="nav">
         <button class="nb" id="back">← Back</button>
-        <div class="hint">Press <kbd>Enter</kbd> to continue</div>
+        <div class="hint">Pick as many as you like · <kbd>Enter</kbd> to continue</div>
         <button class="nb primary" id="next">Next →</button>
       </div>
     </div>
@@ -122,55 +114,56 @@
         <button class="nb" id="restart">↺ Start over</button>
         <span class="toast" id="toast">✅ Prompt copied — paste it into Claude Code and press Enter.</span>
       </div>
-      <p class="hint" style="margin-top:18px">This copies a complete, ready-to-run prompt (all your answers + the build instructions). You don't type anything — just paste.</p>
+      <p class="hint" style="margin-top:18px">This copies a complete, ready-to-run prompt (all the picks + the build instructions). You don't type anything — just paste.</p>
     </div>
   </main>
 
   <div class="footer">Foundry · Colaberry AI Leadership Accelerator — you're not watching me code, you're watching me build a company.</div>
 
 <script>
+/* type 'multi' = tap as many as you like (great for 3 people, 3 picks). type 'text' = free answer. */
 const Q = [
-  { key:"company_does", type:"single", num:"Question 1", q:"What does the company do?",
-    why:"Sets the industry, the website, and everything else.",
-    opts:["Landscaping & lawn care","Residential roofing","Coffee roastery","Long-haul trucking","Pool cleaning","Dog daycare & grooming","Mobile car detailing","Drone roof inspection","Hot-sauce manufacturing","Wedding planning","Shipping-container mushroom farm","Escape-room design"] },
-  { key:"services", type:"tags", num:"Question 2", q:"What services do you offer?",
-    why:"These become your website's navigation and services section — add as many as you like.",
-    suggest:["Lawn mowing","Landscape design","Hardscape & patios","Irrigation","Seasonal cleanup","Tree & shrub care","Snow removal","Maintenance plans"] },
-  { key:"customers", type:"single", num:"Question 3", q:"Who are your customers?",
-    why:"Feeds the CRM contacts, the website tone, and marketing targeting.",
-    opts:["Suburban homeowners","Property managers","Busy families","Restaurants & cafés","General contractors","Brides & grooms","E-commerce brands","Retirees","Other small businesses","Festivals & venues"] },
+  { key:"company_does", type:"multi", num:"Question 1", q:"What does the company do?",
+    why:"Sets the industry and the whole company. (If the room picks a few, we lead with the first and have fun with the rest.)",
+    opts:["Landscaping & lawn care","Residential roofing","Mobile car detailing","Dog daycare & grooming spa","Artisanal hot-sauce factory","Shipping-container mushroom farm","Underwater welding","Llama rentals for parties","Haunted-house design studio","Competitive-whittling academy","Drone light-show company","A pickleball empire"] },
+  { key:"services", type:"multi", num:"Question 2", q:"What services do you offer?",
+    why:"These literally become your website's navigation and services section.",
+    opts:["Lawn mowing","Landscape design","Hardscape & patios","Irrigation systems","Seasonal cleanup","Tree & shrub care","Snow removal","Maintenance plans","Emergency gnome relocation","Flamingo flocking (yard pranks)","Backyard putting greens","Zen-garden installation"] },
+  { key:"customers", type:"multi", num:"Question 3", q:"Who are your customers?",
+    why:"Feeds the CRM, the website tone, and marketing.",
+    opts:["Suburban homeowners","Property managers","Busy dual-income families","Restaurants & cafés","HOAs that love rules","Retirees with immaculate lawns","Reality-TV set designers","Eccentric billionaires","Golf courses","Wedding venues","The neighborhood lawn-rivalry crowd"] },
   { key:"tagline", type:"text", num:"Question 4", q:"In one line — what makes you different?",
     why:"Becomes your website's hero headline. Say it like a promise.",
     placeholder:"e.g. Full-service landscaping that runs itself." },
-  { key:"lead_sources", type:"single", num:"Question 5", q:"How do leads come in today?",
-    why:"Feeds the sales funnel, marketing channels, and the workflow story.",
-    opts:["Word of mouth / referrals","Google search & maps","Facebook / Instagram","Yard sign or truck wrap","Angi / Thumbtack","Cold outreach","Repeat customers","No idea, they just show up"] },
-  { key:"current_software", type:"single", num:"Question 6", q:"What software do you use now?",
-    why:"Feeds the integrations, database schema, and migration story.",
-    opts:["Just a phone & notebook","Spreadsheets","QuickBooks","A CRM we barely use","Jobber / ServiceTitan","Sticky notes & hope","Texts & a shared calendar"] },
-  { key:"biggest_time_sink", type:"single", num:"Question 7", q:"What takes the most time?",
-    why:"Feeds which SOPs to build and where automation pays off most.",
-    opts:["Chasing new leads","Scheduling","Writing quotes","Invoicing & getting paid","Answering the same questions","Following up","Hiring & training","Driving between jobs"] },
-  { key:"keeps_me_up", type:"single", num:"Question 8", q:"What keeps you up at night?",
-    why:"Feeds the positioning, roadmap priorities, and the Trust story.",
-    opts:["Cash flow","Not enough leads","Too many leads to handle","Finding good people","A competitor undercutting us","Losing track of customers","Burning out"] },
-  { key:"clone_this_employee", type:"single", num:"Question 9", q:"If you could clone one employee, which one?",
+  { key:"lead_sources", type:"multi", num:"Question 5", q:"How do leads come in today?",
+    why:"Feeds the sales funnel and marketing channels.",
+    opts:["Referrals / word of mouth","Google search & maps","Facebook / Instagram","A truck wrap","Angi / Thumbtack","A viral TikTok of a perfect lawn stripe","The world's most aggressive yard sign","A blimp","Skywriting","Our mascot at the farmers market","Repeat customers"] },
+  { key:"current_software", type:"multi", num:"Question 6", q:"What do you use to run it now?",
+    why:"Feeds the integrations, the database, and the migration story.",
+    opts:["Just a phone & a notebook","Spreadsheets (so many)","QuickBooks","Jobber / ServiceTitan","Sticky notes & hope","A whiteboard nobody updates","Texts & a shared calendar","A shoebox of receipts","Carrier pigeons","My memory (it's not great)"] },
+  { key:"biggest_time_sink", type:"multi", num:"Question 7", q:"What takes the most time?",
+    why:"Feeds which SOPs to build and where automation pays off.",
+    opts:["Chasing new leads","Scheduling & rescheduling","Writing quotes","Invoicing & getting paid","Answering the same 5 questions","Following up (we forget half)","Driving between jobs","Untangling the hose, spiritually","Arguing about the truck radio","Explaining what mulch is, again"] },
+  { key:"keeps_me_up", type:"multi", num:"Question 8", q:"What keeps you up at night?",
+    why:"Feeds the positioning, the roadmap, and the Trust story.",
+    opts:["Cash flow","Not enough leads","Too many leads to handle","Finding good people","A competitor undercutting us","Losing track of customers","Burning out","The one lawn that will not grow","Geese","Whether the robots are coming (they're here to help)"] },
+  { key:"clone_this_employee", type:"multi", num:"Question 9", q:"If you could clone one employee, which one?",
     why:"Becomes your flagship AI Employee — built first and richest.",
-    opts:["The salesperson who never lets a lead go cold","The scheduler","The bookkeeper who chases invoices","The 24/7 receptionist","The tireless marketer","The perfect dispatcher","The beloved success rep"] },
-  { key:"revenue_model", type:"single", num:"Question 10", q:"How do you make money?",
+    opts:["The salesperson who never lets a lead go cold","The scheduler who works magic","The bookkeeper who chases every invoice","The 24/7 receptionist","The tireless marketer","The perfect dispatcher","The success rep everyone loves","The one who's weirdly good at small talk","The one who remembers every customer's dog's name","The person who always finds parking"] },
+  { key:"revenue_model", type:"multi", num:"Question 10", q:"How do you make money?",
     why:"Feeds the revenue model, pricing, and finance projection.",
-    opts:["Per job / per project","Monthly recurring","Hourly","Retainer + extras","Product sales + shipping","Membership / packages","Whatever feels right (we'll fix it)"] },
-  { key:"team_size_today", type:"single", num:"Question 11", q:"How big are you today?",
-    why:"Feeds the starting numbers and the org chart's human headcount.",
-    opts:["Just me (solo)","Me + a couple helpers (2–4)","A real team (5–15)","Established (15–50)","Starting from scratch tonight"] },
+    opts:["Per job / per project","Monthly recurring","Hourly","Retainer + extras","Product sales + shipping","Membership / packages","A tip jar by the door","Whatever feels right (we'll fix it)","Barter (mostly zucchini)","Pay-what-you-want (bold)"] },
+  { key:"team_size_today", type:"multi", num:"Question 11", q:"How big are you today?",
+    why:"Feeds the starting numbers and the human headcount.",
+    opts:["Just me (solo)","Me + a couple helpers (2–4)","A real team (5–15)","Established (15–50)","Starting from scratch tonight","Me and my very helpful dog","A rotating cast of my cousins","Me + one overqualified teenager"] },
   { key:"region", type:"text", num:"Question 12", q:"Where do you operate?",
     why:"Feeds the service-area map, local marketing, and dispatch.",
     placeholder:"e.g. Maple Grove, Cedar Hills & the north metro" },
-  { key:"ninety_day_goal", type:"single", num:"Question 13", q:"Where do you want to be in 90 days?",
+  { key:"ninety_day_goal", type:"multi", num:"Question 13", q:"Where do you want to be in 90 days?",
     why:"Feeds the 30/60/90 roadmap and the growth goal.",
-    opts:["Double the leads","Stop doing it all manually","Hire & onboard 2 people","Launch online booking","Open a second location","Take a real weekend off"] },
-  { key:"accent", type:"single", num:"Question 14", q:"Pick your brand color",
-    why:"Colaberry palette — sets your accent across the whole company.",
+    opts:["Double the leads","Stop doing it all manually","Hire & onboard 2 people","Launch online booking","Open a second location","Take a real weekend off","Franchise the whole thing","Get on the local news","Beat my nemesis down the street","Finally buy the fancy truck"] },
+  { key:"accent", type:"multi", num:"Question 14", q:"Pick your brand color",
+    why:"Colaberry palette — sets your accent. (We'll use the top pick.)",
     opts:["Cherry Red","Leaf Green","Berry Blue"] },
   { key:"company_name", type:"text", num:"The finale 🎉", q:"Let's name it — together.",
     why:"Ask the room. Name it out loud. This is the peak. Then we build.",
@@ -179,11 +172,10 @@ const Q = [
 
 const answers = {}; let i = 0;
 const $ = id => document.getElementById(id);
-const bar=$("bar"),count=$("count"),qnum=$("qnum"),qtext=$("qtext"),why=$("why"),
+const bar=$("bar"),count=$("count"),qnum=$("qnum"),qtext=$("qtext"),why=$("why"),pickhint=$("pickhint"),
       inputarea=$("inputarea"),qcard=$("qcard"),sumcard=$("sumcard");
 
-/* theme toggle */
-$("toggle").textContent = document.documentElement.getAttribute('data-theme')==='dark'?'☀️':'🌙';
+$("toggle").textContent=document.documentElement.getAttribute('data-theme')==='dark'?'☀️':'🌙';
 $("toggle").onclick=()=>{var d=document.documentElement,n=d.getAttribute('data-theme')==='dark'?'light':'dark';
   d.setAttribute('data-theme',n);localStorage.setItem('foundry-theme',n);$("toggle").textContent=n==='dark'?'☀️':'🌙';};
 
@@ -192,73 +184,45 @@ function render(){
   qnum.textContent=it.num; qtext.textContent=it.q; why.textContent=it.why;
   count.textContent=`${i+1} / ${Q.length}`; bar.style.width=`${(i)/(Q.length)*100}%`;
   inputarea.innerHTML="";
-  if(it.type==="single") renderSingle(it);
-  else if(it.type==="tags") renderTags(it);
-  else renderText(it);
+  if(it.type==="multi"){ pickhint.style.display="inline-flex"; pickhint.innerHTML="✋ Tap all that apply — perfect for asking 3 people to each pick one"; renderMulti(it); }
+  else { pickhint.style.display="none"; renderText(it); }
   $("back").style.visibility=i===0?"hidden":"visible";
   $("next").textContent=i===Q.length-1?"Build it 🚀":"Next →";
 }
-function renderSingle(it){
-  const cur=answers[it.key], isPreset=cur&&it.opts.includes(cur);
-  const grid=document.createElement("div"); grid.className="options";
+function renderMulti(it){
+  if(!Array.isArray(answers[it.key])) answers[it.key]=[];
+  const list=answers[it.key];
+  const grid=document.createElement("div"); grid.className="options multi";
   it.opts.forEach(o=>{
-    const el=document.createElement("div"); el.className="opt"+(cur===o?" sel":"");
-    el.innerHTML=`<span class="box"></span><span>${o}</span>`;
-    el.onclick=()=>{answers[it.key]=o; render();};
+    const sel=list.includes(o);
+    const el=document.createElement("div"); el.className="opt"+(sel?" sel":"");
+    el.innerHTML=`<span class="box">${sel?'✓':''}</span><span>${o}</span>`;
+    el.onclick=()=>{ const ix=list.indexOf(o); if(ix>=0)list.splice(ix,1); else list.push(o); render(); };
     grid.appendChild(el);
   });
   inputarea.appendChild(grid);
   const ow=document.createElement("div"); ow.className="otherwrap";
-  ow.innerHTML=`<input class="txt" id="other" placeholder="Or type your own answer…" autocomplete="off" value="${(cur&&!isPreset)?cur.replace(/"/g,'&quot;'):''}">`;
+  ow.innerHTML=`<input class="txt" id="addown" placeholder="Or add your own — type it and press Enter…" autocomplete="off">`;
   inputarea.appendChild(ow);
-  $("other").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();next();}});
+  const inp=$("addown");
+  inp.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); const v=inp.value.trim();
+    if(v){ if(!list.includes(v))list.push(v); render(); } else { next(); } }});
 }
 function renderText(it){
   const cur=answers[it.key]||"";
   inputarea.innerHTML=`<div class="otherwrap"><input class="txt" id="tfield" placeholder="${it.placeholder||''}" autocomplete="off" value="${cur.replace(/"/g,'&quot;')}"></div>`;
   const f=$("tfield"); f.focus();
-  f.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();next();}});
-}
-function renderTags(it){
-  if(!Array.isArray(answers[it.key])) answers[it.key]=answers[it.key]?[answers[it.key]]:[];
-  const list=answers[it.key];
-  const wrap=document.createElement("div");
-  const tags=document.createElement("div"); tags.className="tags";
-  list.forEach((t,idx)=>{
-    const el=document.createElement("span"); el.className="tag";
-    el.innerHTML=`<b>${t}</b>`; const x=document.createElement("button"); x.textContent="×";
-    x.onclick=()=>{list.splice(idx,1); render();}; el.appendChild(x); tags.appendChild(el);
-  });
-  wrap.appendChild(tags);
-  const field=document.createElement("div"); field.className="tagfield";
-  field.innerHTML=`<input id="tagin" placeholder="Type a service and press Enter…" autocomplete="off">`;
-  wrap.appendChild(field);
-  if(it.suggest){
-    const s=document.createElement("div"); s.className="suggest";
-    s.innerHTML="Tap to add: ";
-    it.suggest.forEach(sg=>{ if(list.includes(sg))return;
-      const c=document.createElement("span"); c.className="chipadd"; c.textContent="+ "+sg;
-      c.onclick=()=>{list.push(sg); render();}; s.appendChild(c);
-    });
-    wrap.appendChild(s);
-  }
-  inputarea.appendChild(wrap);
-  const inp=$("tagin"); inp.focus();
-  inp.addEventListener("keydown",e=>{
-    if(e.key==="Enter"){ e.preventDefault(); const v=inp.value.trim();
-      if(v){ list.push(v); render(); } else { next(); } }
-  });
+  f.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); next(); }});
 }
 function commit(){
-  const o=$("other"); if(o&&o.value.trim()) answers[Q[i].key]=o.value.trim();
+  const a=$("addown"); if(a&&a.value.trim()){ const l=answers[Q[i].key]; if(!l.includes(a.value.trim()))l.push(a.value.trim()); }
   const t=$("tfield"); if(t) answers[Q[i].key]=t.value.trim();
-  const g=$("tagin"); if(g&&g.value.trim()){ answers[Q[i].key].push(g.value.trim()); }
 }
 function next(){ commit(); if(i<Q.length-1){i++;render();} else showSummary(); }
 function back(){ commit(); if(i>0){i--;render();} }
 $("next").onclick=next; $("back").onclick=back;
 document.addEventListener("keydown",e=>{ if(sumcard.classList.contains("show"))return;
-  if(e.key==="Enter"){const a=document.activeElement; if(a&&(a.id==="other"||a.id==="tfield"||a.id==="tagin"))return; next();}});
+  if(e.key==="Enter"){const a=document.activeElement; if(a&&(a.id==="addown"||a.id==="tfield"))return; next();}});
 
 function val(k){ const v=answers[k]; return Array.isArray(v)?v.join(", "):(v||""); }
 function buildPrompt(){
@@ -267,7 +231,9 @@ function buildPrompt(){
   return [
     "Read BusinessGenerator.md and build the entire company now from these interview answers:",
     "", yaml, "",
-    "Use the light Colaberry theme by default (Cherry/Leaf/Berry). Build the website nav + services from the services answer,",
+    "Some fields have multiple crowd picks (comma-separated). For list-friendly fields (services, customers, lead_sources) use them all;",
+    "for single-value fields (company_does, revenue_model, accent) lead with the FIRST pick and weave the others in as a fun twist.",
+    "Use the light Colaberry theme by default (Cherry/Leaf/Berry). Build the website nav + services from the services picks,",
     "highlight everything that came from these answers, make the CRM a Salesforce-style drag-and-drop pipeline,",
     "add Power BI-style charts and Mermaid storytelling diagrams throughout, and include the Trust dashboard.",
     "Build the Knowledge Base too: a typed search, the Cory chatbot grounded in the whole project, and up to 3 downloadable one-pager documents with Mermaid.",
