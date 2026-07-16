@@ -360,7 +360,7 @@ When a template is missing, build the page to the design system in §9 and — o
 
 - **No filler.** Zero lorem ipsum, zero "Lorem", zero "Coming soon", zero empty states, zero `#` dead links. Every link resolves to a real generated page.
 - **Believable specifics.** Real-sounding customer names and towns, plausible dollar amounts for the industry and region, invoice numbers, appointment times, campaign names.
-- **Consistent numbers.** All KPIs across all pages trace back to `company.json`.
+- **Consistent numbers.** All KPIs across all pages trace back to `company.json`. **Derive headcounts (AI vs. human) by counting the `workforce` array — never hard-code a total that can drift from the actual roster.** The Command Center, org chart, finance model, and every "N AI Employees" mention must show the same number.
 - **Confident, human copy.** Write like a sharp operator, not a template. Short, concrete, benefit-led.
 - **On-brand everywhere.** Same header, same theme, same components, same "← Command Center" link.
 - **Tasteful "alive."** Motion is subtle and purposeful (activity ticker, hover lifts). Never gimmicky.
