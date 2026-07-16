@@ -83,7 +83,35 @@
   .toast{color:var(--green-600);font-weight:700;opacity:0;transition:.2s}
   .toast.show{opacity:1}
   .footer{padding:14px 32px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);text-align:center}
-  @media (max-width:560px){.card{padding:28px 22px}.row .k{min-width:120px}}
+  /* Assignment banner (so walk-ins instantly get it) */
+  .assignment{padding:16px 32px 0}
+  .assignment__inner{background:linear-gradient(120deg,var(--red-50),var(--green-50));border:1px solid var(--border);border-radius:18px;padding:18px 22px}
+  .assignment__badge{display:inline-block;background:var(--red-500);color:#fff;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+  .assignment h2{font-size:clamp(19px,2.3vw,25px);margin:10px 0 6px;color:var(--text)}
+  .assignment p{margin:0 0 12px;color:var(--body);font-size:15px;max-width:none}
+  .assignment__steps{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .astep{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600;color:var(--text)}
+  .astep b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--red-500);color:#fff;font-size:12px}
+  .assignment__steps .arrow{color:var(--muted);font-weight:700}
+  /* Layout: tracker + stage */
+  .layout{display:flex;gap:22px;align-items:flex-start;padding:18px 32px 24px;flex:1}
+  .tracker{width:300px;flex:0 0 auto;position:sticky;top:16px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:0 8px 30px rgba(26,26,26,.06);max-height:calc(100vh - 34px);overflow:auto}
+  .tracker h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+  .tracker .co{font-size:20px;font-weight:800;color:var(--text);line-height:1.1}
+  .tracker .locked{font-size:12px;color:var(--muted);margin:2px 0 14px}
+  .tk-item{border-left:3px solid var(--border);padding:7px 0 7px 12px;margin-bottom:3px;cursor:pointer;border-radius:0 8px 8px 0}
+  .tk-item:hover{background:var(--sunken)}
+  .tk-item.current{border-left-color:var(--red-500);background:var(--red-50)}
+  .tk-q{font-size:12px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .tk-item.done .tk-q{color:var(--text)}
+  .tk-q .ck{color:var(--green-600)}
+  .tk-v{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px}
+  .tk-chip{background:var(--green-50);color:var(--green-600);border:1px solid var(--green-500);border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600}
+  .tk-none{margin-top:3px;font-size:12px;color:var(--n500);font-style:italic}
+  .stage{flex:1;min-width:0;display:block;padding:0}
+  .stage .card{width:auto}
+  @media(max-width:900px){.layout{flex-direction:column}.tracker{width:auto;position:static;max-height:none;order:2}.stage{order:1;width:100%}}
+  @media (max-width:560px){.card{padding:28px 22px}.row .k{min-width:120px}.assignment,.layout{padding-left:14px;padding-right:14px}}
 </style>
 </head>
 <body>
@@ -103,12 +131,29 @@
     </div>
   </header>
 
+  <section class="assignment">
+    <div class="assignment__inner">
+      <span class="assignment__badge">📋 The assignment · what we're doing right now</span>
+      <h2>We're inventing a company — live — from your answers.</h2>
+      <p>Tap options on the screen (pick as many as you like — grab a neighbor and each pick one). When the room's done, an AI builds the <b>entire business in about 12 minutes</b>: a website, a CRM, dashboards, and a whole team of AI employees. <b>Just walked in?</b> Perfect — help us answer the question on screen, and check the <b>tracker on the left</b> to see everything we've decided so far.</p>
+      <div class="assignment__steps">
+        <span class="astep"><b>1</b> Answer as a room</span>
+        <span class="arrow">→</span>
+        <span class="astep"><b>2</b> AI builds it live</span>
+        <span class="arrow">→</span>
+        <span class="astep"><b>3</b> Meet your new company</span>
+      </div>
+    </div>
+  </section>
+
   <div class="progresswrap">
     <div class="progress"><div class="bar" id="bar"></div></div>
     <div class="count" id="count"></div>
   </div>
 
-  <main>
+  <div class="layout">
+    <aside class="tracker" id="tracker"></aside>
+    <main class="stage">
     <div class="card" id="qcard">
       <div class="qnum" id="qnum"></div>
       <div class="qtext" id="qtext"></div>
@@ -134,7 +179,8 @@
       </div>
       <p class="hint" style="margin-top:18px">This copies a complete, ready-to-run prompt (all the picks + the build instructions). You don't type anything — just paste.</p>
     </div>
-  </main>
+    </main>
+  </div>
 
   <div class="footer">Foundry · Colaberry AI Leadership Accelerator — you're not watching me code, you're watching me build a company.</div>
 
@@ -188,8 +234,12 @@ const Q = [
     placeholder:"e.g. Evergreen Grounds Co." },
 ];
 
+const LABELS={company_does:"Industry",services:"Services",customers:"Customers",tagline:"Tagline",lead_sources:"Leads come from",current_software:"Tools today",biggest_time_sink:"Biggest time sink",keeps_me_up:"Keeps us up",clone_this_employee:"Clone this role",revenue_model:"How we earn",team_size_today:"Team size",region:"Service area",ninety_day_goal:"90-day goal",accent:"Brand color",company_name:"Company name"};
 const answers = {}; let i = 0;
+try{ Object.assign(answers, JSON.parse(localStorage.getItem('foundry-answers')||'{}')); var _i=parseInt(localStorage.getItem('foundry-i')); if(!isNaN(_i)&&_i>=0&&_i<15) i=_i; }catch(e){}
 const $ = id => document.getElementById(id);
+function saveState(){ try{ localStorage.setItem('foundry-answers',JSON.stringify(answers)); localStorage.setItem('foundry-i',i);}catch(e){} }
+function esc(s){ return (''+s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 const bar=$("bar"),count=$("count"),qnum=$("qnum"),qtext=$("qtext"),why=$("why"),pickhint=$("pickhint"),
       inputarea=$("inputarea"),qcard=$("qcard"),sumcard=$("sumcard");
 
@@ -220,7 +270,25 @@ function render(){
   else { pickhint.style.display="none"; renderText(it); }
   $("back").style.visibility=i===0?"hidden":"visible";
   $("next").textContent=i===Q.length-1?"Build it 🚀":"Next →";
+  renderTracker(); saveState();
 }
+function renderTracker(){
+  const t=$("tracker"); if(!t)return;
+  const locked=Q.filter(q=>val(q.key)).length;
+  const name=val("company_name");
+  let h='<h3>Our company so far</h3><div class="co">'+(name?esc(name):'<span class="tk-none" style="font-size:16px">Unnamed for now</span>')+'</div>';
+  h+='<div class="locked">'+locked+' / '+Q.length+' locked in</div>';
+  Q.forEach((q,idx)=>{
+    const v=val(q.key), done=!!v, cur=idx===i;
+    h+='<div class="tk-item '+(cur?'current ':'')+(done?'done':'')+'" onclick="jumpTo('+idx+')">';
+    h+='<div class="tk-q">'+(done?'<span class="ck">✓</span>':(idx+1)+'.')+' '+LABELS[q.key]+'</div>';
+    if(done) h+='<div class="tk-v">'+v.split(', ').map(p=>'<span class="tk-chip">'+esc(p)+'</span>').join('')+'</div>';
+    else h+='<div class="tk-none">'+(cur?'answering now…':'not yet')+'</div>';
+    h+='</div>';
+  });
+  t.innerHTML=h;
+}
+function jumpTo(n){ commit(); i=n; render(); }
 function renderMulti(it){
   if(!Array.isArray(answers[it.key])) answers[it.key]=[];
   const list=answers[it.key];
@@ -285,11 +353,12 @@ function showSummary(){
   const name=val("company_name");
   $("sumtitle").textContent=name?`${name} is ready to build 🚀`:"Your company is ready to build 🚀";
   $("prompt").value=buildPrompt();
+  renderTracker(); saveState();
 }
 $("copy").onclick=()=>{ const ta=$("prompt"); ta.select(); ta.setSelectionRange(0,99999); let ok=false;
   try{ok=document.execCommand("copy");}catch(e){} if(navigator.clipboard){navigator.clipboard.writeText(ta.value).catch(()=>{});ok=true;}
   const t=$("toast"); if(ok){t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600);} };
-$("restart").onclick=()=>{ for(const k in answers)delete answers[k]; i=0; sumcard.classList.remove("show"); qcard.style.display="block"; render(); };
+$("restart").onclick=()=>{ if(!confirm('Clear all the room’s picks and start over?'))return; for(const k in answers)delete answers[k]; i=0; try{localStorage.removeItem('foundry-answers');localStorage.removeItem('foundry-i');}catch(e){} sumcard.classList.remove("show"); qcard.style.display="block"; render(); };
 
 render();
 </script>
