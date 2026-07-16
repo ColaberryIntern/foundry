@@ -255,24 +255,35 @@ function optsFor(it){ var k=currentIndustryKey(); if(k && typeof INDUSTRY!=='und
 /* ---- Optional LLM generation for made-up industries (key stays in this browser only) ---- */
 function industryName(){ var a=answers.company_does; if(!Array.isArray(a)||!a.length) return ''; return (''+a[0]).trim(); }
 var genState={busy:false,key:null,err:null};
-function llmKey(){ try{ return localStorage.getItem('foundry-anthropic-key')||''; }catch(e){ return ''; } }
-function llmModel(){ try{ return localStorage.getItem('foundry-anthropic-model')||'claude-opus-4-8'; }catch(e){ return 'claude-opus-4-8'; } }
+function llmKey(){ try{ return (localStorage.getItem('foundry-llm-key')||localStorage.getItem('foundry-anthropic-key')||''); }catch(e){ return ''; } }
+function llmProvider(){ return llmKey().indexOf('sk-ant')===0 ? 'anthropic' : 'openai'; }
+function llmModel(){ try{ var m=localStorage.getItem('foundry-llm-model'); if(m) return m; }catch(e){} return llmProvider()==='anthropic' ? 'claude-opus-4-8' : 'gpt-4o-mini'; }
 try{ if(typeof INDUSTRY!=='undefined'){ var _c=JSON.parse(localStorage.getItem('foundry-industry-cache')||'{}'); for(var _k in _c) INDUSTRY[_k]=_c[_k]; } }catch(e){}
 async function generateIndustry(name,key){
   var kx=llmKey(); if(!kx) return;
   genState.busy=true; genState.key=key; genState.err=null; render();
   try{
-    var keys=["services","customers","lead_sources","biggest_time_sink","keeps_me_up","clone_this_employee","ninety_day_goal"], props={};
-    keys.forEach(function(p){ props[p]={type:"array",items:{type:"string"}}; });
-    var schema={type:"object",additionalProperties:false,properties:props,required:keys};
-    var prompt="Generate fun multiple-choice options for a live 'invent a business' interview game. The business is: \""+name+"\". Return 7 arrays, each with 8 short options (2-6 words each), mixing about 4 normal/plausible and 4 weird/funny, all genuinely specific to this exact business. Keys: services (what they sell), customers (who buys), lead_sources (how leads come in), biggest_time_sink (what eats their time), keeps_me_up (their worries), clone_this_employee (the one role they would clone), ninety_day_goal (a 90-day goal). Keep options punchy and on-theme.";
-    var body={ model:llmModel(), max_tokens:1500, output_config:{ format:{ type:"json_schema", schema:schema } }, messages:[{role:"user",content:prompt}] };
-    var r=await fetch("https://api.anthropic.com/v1/messages",{ method:"POST",
-      headers:{ "content-type":"application/json", "x-api-key":kx, "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" },
-      body:JSON.stringify(body) });
-    if(!r.ok) throw new Error("HTTP "+r.status);
-    var data=await r.json();
-    var text=(data.content||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join("");
+    var keys=["services","customers","lead_sources","biggest_time_sink","keeps_me_up","clone_this_employee","ninety_day_goal"];
+    var instr="You are generating fun multiple-choice options for a live 'invent a business' interview game. The business is: \""+name+"\". Respond with ONLY a JSON object whose keys are exactly: "+keys.join(", ")+". Each value is an array of 8 short options (2-6 words each), mixing about 4 normal/plausible and 4 weird/funny, all genuinely specific to this exact business. services = what they sell; customers = who buys from them; lead_sources = how leads come in; biggest_time_sink = what eats their time; keeps_me_up = their worries; clone_this_employee = the one role they would clone; ninety_day_goal = a 90-day goal. Keep options punchy and on-theme.";
+    var text;
+    if(llmProvider()==='anthropic'){
+      var props={}; keys.forEach(function(p){ props[p]={type:"array",items:{type:"string"}}; });
+      var body={ model:llmModel(), max_tokens:1500, output_config:{ format:{ type:"json_schema", schema:{type:"object",additionalProperties:false,properties:props,required:keys} } }, messages:[{role:"user",content:instr}] };
+      var r=await fetch("https://api.anthropic.com/v1/messages",{ method:"POST",
+        headers:{ "content-type":"application/json", "x-api-key":kx, "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" },
+        body:JSON.stringify(body) });
+      if(!r.ok) throw new Error("Anthropic HTTP "+r.status);
+      var data=await r.json();
+      text=(data.content||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join("");
+    } else {
+      var body2={ model:llmModel(), messages:[{role:"user",content:instr}], response_format:{type:"json_object"}, max_tokens:1500 };
+      var r2=await fetch("https://api.openai.com/v1/chat/completions",{ method:"POST",
+        headers:{ "content-type":"application/json", "authorization":"Bearer "+kx },
+        body:JSON.stringify(body2) });
+      if(!r2.ok) throw new Error("OpenAI HTTP "+r2.status);
+      var data2=await r2.json();
+      text=(((data2.choices||[])[0]||{}).message||{}).content||"";
+    }
     var obj=JSON.parse(text);
     if(typeof INDUSTRY!=='undefined') INDUSTRY[key]=obj;
     try{ var cache=JSON.parse(localStorage.getItem('foundry-industry-cache')||'{}'); cache[key]=obj; localStorage.setItem('foundry-industry-cache',JSON.stringify(cache)); }catch(e){}
@@ -301,16 +312,19 @@ $("toggle").onclick=()=>{var d=document.documentElement,n=d.getAttribute('data-t
   d.setAttribute('data-theme',n);localStorage.setItem('foundry-theme',n);$("toggle").textContent=n==='dark'?'☀️':'🌙';};
 
 /* AI-options setup button (stores the key in this browser only) */
-function updateLlmBtn(){ var b=$("llmbtn"); if(!b)return; var on=!!llmKey(); b.style.opacity=on?'1':'0.5'; b.title=on?'AI options: ON — made-up industries auto-generate':'AI options: off — click to enable'; }
-$("llmbtn").onclick=function(){
+/* Hide the setup button once a key is saved; re-open anytime with Ctrl+Alt+K */
+function updateLlmBtn(){ var b=$("llmbtn"); if(!b)return; b.style.display=llmKey()?'none':'grid'; b.title='AI options: off — click to enable'; }
+function openKeyDialog(){
   var cur=llmKey();
   var msg=cur ? 'AI options are ON — your key is saved on this device only, never uploaded.\n\nPaste a new key to replace it, type REMOVE to turn it off, or Cancel to keep it.'
-              : 'Turn on AI-generated options for made-up industries?\n\nPaste your Anthropic API key (sk-ant-…). It is stored only in this browser and never uploaded.';
-  var v=prompt(msg,''); if(v===null) return; v=v.trim();
-  if(v.toUpperCase()==='REMOVE'){ try{localStorage.removeItem('foundry-anthropic-key');}catch(e){} }
-  else if(v){ try{localStorage.setItem('foundry-anthropic-key',v);}catch(e){} }
+              : 'Turn on AI-generated options for made-up industries?\n\nPaste your OpenAI (sk-…) or Anthropic (sk-ant-…) API key. It is stored only in this browser and never uploaded.';
+  var v=prompt(msg,''); if(v===null) return; v=(''+v).trim();
+  if(v.toUpperCase()==='REMOVE'){ try{localStorage.removeItem('foundry-llm-key');localStorage.removeItem('foundry-anthropic-key');}catch(e){} }
+  else if(v){ try{localStorage.setItem('foundry-llm-key',v);}catch(e){} }
   updateLlmBtn(); genState.err=null; render();
-};
+}
+$("llmbtn").onclick=openKeyDialog;
+document.addEventListener('keydown',function(e){ if(e.ctrlKey&&e.altKey&&(e.key==='k'||e.key==='K')){ e.preventDefault(); openKeyDialog(); } });
 updateLlmBtn();
 
 /* Open House — live Central-time clock + today's date */
