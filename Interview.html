@@ -1,101 +1,97 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AI Business Generator — Live Interview</title>
+<script>(function(){var t=localStorage.getItem('foundry-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
 <style>
   :root{
-    --bg:#0B1220; --bg2:#111a2e; --surface:#141d31; --border:#243049;
-    --text:#E8EDF6; --muted:#94A3B8; --accent:#4F8CFF; --emerald:#22D3A6; --amber:#F5A524;
+    --red-500:#FB2832;--red-600:#E5121D;--red-700:#C20E1E;--red-50:#FFF0F1;--red-200:#FFB8BC;
+    --green-500:#77BB4A;--green-600:#5BA63C;--green-50:#F1F9EA;--green-100:#DEF0CC;
+    --blue-500:#367895;--blue-600:#2E6A86;--blue-50:#EAF2F6;
+    --n0:#FFFFFF;--n50:#F8F8F7;--n100:#F1F1F0;--n200:#E4E4E3;--n300:#D8D8D8;
+    --n500:#8C8C8C;--n600:#6B6B6B;--n800:#2B2B2B;--n900:#1A1A1A;--n950:#0F0F0F;
+    --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'Roboto Mono',ui-monospace,Menlo,Consolas,monospace;
+    --bg:var(--n50);--surface:var(--n0);--sunken:var(--n100);
+    --text:var(--n900);--body:var(--n800);--muted:var(--n600);--border:var(--n200);
+  }
+  [data-theme="dark"]{
+    --bg:var(--n950);--surface:#16181d;--sunken:#20242b;
+    --text:#fff;--body:#E4E4E3;--muted:#9aa3ad;--border:rgba(255,255,255,.14);
+    --green-50:rgba(119,187,74,.14);--blue-50:rgba(54,120,149,.18);--red-50:rgba(251,40,50,.16);--green-100:rgba(119,187,74,.22);
   }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{
-    margin:0; color:var(--text);
-    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:radial-gradient(1200px 800px at 50% -10%, var(--bg2), var(--bg));
-    display:flex; flex-direction:column; min-height:100vh;
-  }
-  header{
-    display:flex; align-items:center; gap:14px; padding:22px 32px;
-    border-bottom:1px solid var(--border);
-  }
-  .logo{
-    width:40px;height:40px;border-radius:11px;flex:0 0 auto;
-    background:linear-gradient(135deg,var(--accent),var(--emerald));
-    display:grid;place-items:center;font-weight:800;color:#04121f;font-size:20px;
-  }
-  header h1{font-size:18px;letter-spacing:.14em;text-transform:uppercase;margin:0;font-weight:700}
-  header .sub{color:var(--muted);font-size:13px;margin-top:2px}
+  body{margin:0;color:var(--body);font-family:var(--font);background:var(--bg);display:flex;flex-direction:column;min-height:100vh;transition:background .25s,color .25s}
+  header.top{display:flex;align-items:center;gap:14px;padding:20px 32px;border-bottom:1px solid var(--border)}
+  .logo{width:42px;height:42px;border-radius:12px;flex:0 0 auto;background:linear-gradient(135deg,var(--red-500),var(--red-700));display:grid;place-items:center;font-weight:800;color:#fff;font-size:22px}
+  header.top h1{font-size:19px;letter-spacing:.02em;margin:0;font-weight:800;color:var(--text)}
+  header.top .sub{color:var(--muted);font-size:13px;margin-top:2px}
+  .toggle{margin-left:auto;width:38px;height:38px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;display:grid;place-items:center}
+  .toggle:hover{border-color:var(--red-500)}
   .progresswrap{padding:0 32px;margin-top:18px}
-  .progress{height:6px;background:var(--surface);border:1px solid var(--border);border-radius:999px;overflow:hidden}
-  .bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--emerald));transition:width .35s ease}
+  .progress{height:7px;background:var(--sunken);border:1px solid var(--border);border-radius:999px;overflow:hidden}
+  .bar{height:100%;width:0;background:linear-gradient(90deg,var(--red-500),var(--green-500));transition:width .35s ease}
   .count{color:var(--muted);font-size:13px;margin-top:8px;text-align:right}
   main{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
-  .card{
-    width:min(920px,94vw); background:var(--surface); border:1px solid var(--border);
-    border-radius:20px; padding:40px 44px; box-shadow:0 30px 80px rgba(0,0,0,.45);
-    animation:rise .3s ease;
-  }
+  .card{width:min(940px,94vw);background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:40px 44px;box-shadow:0 12px 40px rgba(26,26,26,.10);animation:rise .3s ease}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .qnum{color:var(--emerald);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:13px}
-  .qtext{font-size:clamp(26px,3.6vw,40px);font-weight:800;line-height:1.15;margin:10px 0 6px}
+  .qnum{color:var(--red-500);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:13px}
+  .qtext{font-size:clamp(26px,3.6vw,40px);font-weight:800;line-height:1.14;margin:10px 0 6px;color:var(--text)}
   .why{color:var(--muted);font-size:14px;margin-bottom:26px}
   .options{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-  .opt{
-    display:flex;align-items:center;gap:12px;cursor:pointer;
-    background:#0f1728;border:1px solid var(--border);border-radius:13px;
-    padding:15px 16px;font-size:16px;transition:.15s;
-  }
-  .opt:hover{border-color:var(--accent);transform:translateY(-1px)}
-  .opt.sel{border-color:var(--emerald);background:rgba(34,211,166,.10);box-shadow:0 0 0 1px var(--emerald) inset}
-  .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex:0 0 auto}
-  .opt.sel .dot{border-color:var(--emerald);background:var(--emerald)}
+  .opt{display:flex;align-items:center;gap:12px;cursor:pointer;background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:15px 16px;font-size:16px;color:var(--body);transition:.15s}
+  .opt:hover{border-color:var(--blue-500);transform:translateY(-1px)}
+  .opt.sel{border-color:var(--red-500);background:var(--red-50)}
+  .box{width:18px;height:18px;border-radius:50%;border:2px solid var(--n300);flex:0 0 auto}
+  .opt.sel .box{border-color:var(--red-500);background:var(--red-500);box-shadow:inset 0 0 0 3px var(--surface)}
+  .multi .box{border-radius:6px}
   .otherwrap{margin-top:16px}
-  .otherwrap input{
-    width:100%;background:#0f1728;border:1px solid var(--border);border-radius:13px;
-    color:var(--text);font-size:17px;padding:16px 18px;
-  }
-  .otherwrap input:focus{outline:none;border-color:var(--accent)}
+  input.txt,.tagfield input{width:100%;background:var(--surface);border:2px solid var(--border);border-radius:14px;color:var(--text);font-size:17px;font-family:var(--font);padding:16px 18px}
+  input.txt:focus,.tagfield input:focus{outline:none;border-color:var(--red-500)}
+  /* tags */
+  .tags{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px;min-height:8px}
+  .tag{display:inline-flex;align-items:center;gap:8px;background:var(--green-50);color:var(--green-600);border:1px solid var(--green-500);border-radius:999px;padding:7px 14px;font-size:15px;font-weight:600}
+  .tag b{color:var(--text);font-weight:600}
+  .tag button{border:none;background:transparent;color:var(--green-600);cursor:pointer;font-size:16px;line-height:1;padding:0}
+  .suggest{margin-top:12px;color:var(--muted);font-size:13px}
+  .chipadd{display:inline-block;background:var(--sunken);border:1px dashed var(--border);border-radius:999px;padding:5px 12px;font-size:13px;margin:4px 4px 0 0;cursor:pointer;color:var(--body)}
+  .chipadd:hover{border-color:var(--green-500);color:var(--green-600)}
   .nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px}
-  button{
-    font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--border);
-    background:transparent;color:var(--text);padding:13px 22px;font-size:16px;transition:.15s;
-  }
-  button:hover{border-color:var(--accent)}
-  .primary{background:linear-gradient(135deg,var(--accent),var(--emerald));color:#04121f;border:none;font-weight:800}
-  .primary:hover{filter:brightness(1.06)}
+  button.nb{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);padding:13px 22px;font-size:16px;font-family:var(--font);transition:.15s}
+  button.nb:hover{border-color:var(--red-500)}
+  .primary{background:var(--red-500);color:#fff;border:none;font-weight:800;box-shadow:0 6px 18px rgba(251,40,50,.28)}
+  .primary:hover{background:var(--red-600)}
   .hint{color:var(--muted);font-size:13px}
-  kbd{background:#0f1728;border:1px solid var(--border);border-radius:6px;padding:2px 7px;font-size:12px}
+  kbd{background:var(--sunken);border:1px solid var(--border);border-radius:6px;padding:2px 7px;font-size:12px}
   /* summary */
   .sum{display:none}
   .sum.show{display:block;animation:rise .3s ease}
-  .sum h2{font-size:clamp(28px,4vw,44px);margin:0 0 4px}
+  .sum h2{font-size:clamp(26px,4vw,42px);margin:0 0 4px;color:var(--text)}
   .sum p.lead{color:var(--muted);margin:0 0 24px;font-size:16px}
-  .rows{display:grid;gap:10px;margin-bottom:24px}
-  .row{display:flex;gap:14px;padding:13px 16px;background:#0f1728;border:1px solid var(--border);border-radius:12px}
-  .row .k{color:var(--muted);min-width:190px;font-size:14px}
-  .row .v{font-weight:600}
-  .row .v.empty{color:var(--amber);font-weight:500;font-style:italic}
-  textarea{
-    width:100%;min-height:230px;background:#0b1424;border:1px solid var(--border);border-radius:14px;
-    color:#c9f6e8;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;padding:18px;line-height:1.6;
-  }
+  .rows{display:grid;gap:9px;margin-bottom:22px}
+  .row{display:flex;gap:14px;padding:12px 16px;background:var(--sunken);border:1px solid var(--border);border-radius:12px}
+  .row .k{color:var(--muted);min-width:200px;font-size:14px}
+  .row .v{font-weight:600;color:var(--text)}
+  .row .v.empty{color:var(--blue-600);font-weight:500;font-style:italic}
+  textarea{width:100%;min-height:250px;background:var(--sunken);border:1px solid var(--border);border-radius:14px;color:var(--body);font-family:var(--mono);font-size:13.5px;padding:18px;line-height:1.6}
   .copybar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:16px}
-  .toast{color:var(--emerald);font-weight:700;opacity:0;transition:.2s}
+  .toast{color:var(--green-600);font-weight:700;opacity:0;transition:.2s}
   .toast.show{opacity:1}
   .footer{padding:14px 32px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);text-align:center}
-  @media (max-width:560px){ .card{padding:28px 22px} .row .k{min-width:120px} }
+  @media (max-width:560px){.card{padding:28px 22px}.row .k{min-width:120px}}
 </style>
 </head>
 <body>
-  <header>
+  <header class="top">
     <div class="logo">F</div>
     <div>
       <h1>AI Business Generator</h1>
-      <div class="sub">Live discovery interview · answer out loud, we build it for real</div>
+      <div class="sub">Live discovery interview · answer out loud, we build the company for real</div>
     </div>
+    <button class="toggle" id="toggle" title="Light / dark">🌙</button>
   </header>
 
   <div class="progresswrap">
@@ -104,32 +100,29 @@
   </div>
 
   <main>
-    <!-- Question card -->
     <div class="card" id="qcard">
       <div class="qnum" id="qnum"></div>
       <div class="qtext" id="qtext"></div>
       <div class="why" id="why"></div>
-      <div class="options" id="options"></div>
-      <div class="otherwrap"><input id="other" placeholder="Or type your own answer…" autocomplete="off" /></div>
+      <div id="inputarea"></div>
       <div class="nav">
-        <button id="back">← Back</button>
+        <button class="nb" id="back">← Back</button>
         <div class="hint">Press <kbd>Enter</kbd> to continue</div>
-        <button class="primary" id="next">Next →</button>
+        <button class="nb primary" id="next">Next →</button>
       </div>
     </div>
 
-    <!-- Summary card -->
     <div class="card sum" id="sumcard">
       <h2 id="sumtitle">Your company is ready to build 🚀</h2>
-      <p class="lead">Here's what the room just created. Click <b>Copy build prompt</b>, switch to Claude Code, paste, and press Enter — the build starts.</p>
+      <p class="lead">Here's what the room created. Click <b>Copy build prompt</b>, switch to Claude Code, paste, and press Enter — the build starts.</p>
       <div class="rows" id="rows"></div>
-      <textarea id="yaml" readonly spellcheck="false"></textarea>
+      <textarea id="prompt" readonly spellcheck="false"></textarea>
       <div class="copybar">
-        <button class="primary" id="copy">📋 Copy build prompt</button>
-        <button id="restart">↺ Start over</button>
+        <button class="nb primary" id="copy">📋 Copy build prompt</button>
+        <button class="nb" id="restart">↺ Start over</button>
         <span class="toast" id="toast">✅ Prompt copied — paste it into Claude Code and press Enter.</span>
       </div>
-      <p class="hint" style="margin-top:18px">This copies a complete, ready-to-run prompt (your answers + the build instructions). You don't type anything — just paste.</p>
+      <p class="hint" style="margin-top:18px">This copies a complete, ready-to-run prompt (all your answers + the build instructions). You don't type anything — just paste.</p>
     </div>
   </main>
 
@@ -137,135 +130,168 @@
 
 <script>
 const Q = [
-  { key:"company_does", num:"Question 1", q:"What does the company do?",
-    why:"This shapes the industry, the website, and everything else.",
+  { key:"company_does", type:"single", num:"Question 1", q:"What does the company do?",
+    why:"Sets the industry, the website, and everything else.",
     opts:["Landscaping & lawn care","Residential roofing","Coffee roastery","Long-haul trucking","Pool cleaning","Dog daycare & grooming","Mobile car detailing","Drone roof inspection","Hot-sauce manufacturing","Wedding planning","Shipping-container mushroom farm","Escape-room design"] },
-  { key:"customers", num:"Question 2", q:"Who are your customers?",
+  { key:"services", type:"tags", num:"Question 2", q:"What services do you offer?",
+    why:"These become your website's navigation and services section — add as many as you like.",
+    suggest:["Lawn mowing","Landscape design","Hardscape & patios","Irrigation","Seasonal cleanup","Tree & shrub care","Snow removal","Maintenance plans"] },
+  { key:"customers", type:"single", num:"Question 3", q:"Who are your customers?",
     why:"Feeds the CRM contacts, the website tone, and marketing targeting.",
     opts:["Suburban homeowners","Property managers","Busy families","Restaurants & cafés","General contractors","Brides & grooms","E-commerce brands","Retirees","Other small businesses","Festivals & venues"] },
-  { key:"lead_sources", num:"Question 3", q:"How do leads come in today?",
-    why:"Feeds the sales funnel, marketing channels, and the automations diagram.",
+  { key:"tagline", type:"text", num:"Question 4", q:"In one line — what makes you different?",
+    why:"Becomes your website's hero headline. Say it like a promise.",
+    placeholder:"e.g. Full-service landscaping that runs itself." },
+  { key:"lead_sources", type:"single", num:"Question 5", q:"How do leads come in today?",
+    why:"Feeds the sales funnel, marketing channels, and the workflow story.",
     opts:["Word of mouth / referrals","Google search & maps","Facebook / Instagram","Yard sign or truck wrap","Angi / Thumbtack","Cold outreach","Repeat customers","No idea, they just show up"] },
-  { key:"current_software", num:"Question 4", q:"What software do you use now?",
+  { key:"current_software", type:"single", num:"Question 6", q:"What software do you use now?",
     why:"Feeds the integrations, database schema, and migration story.",
     opts:["Just a phone & notebook","Spreadsheets","QuickBooks","A CRM we barely use","Jobber / ServiceTitan","Sticky notes & hope","Texts & a shared calendar"] },
-  { key:"biggest_time_sink", num:"Question 5", q:"What takes the most time?",
+  { key:"biggest_time_sink", type:"single", num:"Question 7", q:"What takes the most time?",
     why:"Feeds which SOPs to build and where automation pays off most.",
     opts:["Chasing new leads","Scheduling","Writing quotes","Invoicing & getting paid","Answering the same questions","Following up","Hiring & training","Driving between jobs"] },
-  { key:"keeps_me_up", num:"Question 6", q:"What keeps you up at night?",
-    why:"Feeds the positioning, roadmap priorities, and the ROI story.",
+  { key:"keeps_me_up", type:"single", num:"Question 8", q:"What keeps you up at night?",
+    why:"Feeds the positioning, roadmap priorities, and the Trust story.",
     opts:["Cash flow","Not enough leads","Too many leads to handle","Finding good people","A competitor undercutting us","Losing track of customers","Burning out"] },
-  { key:"clone_this_employee", num:"Question 7", q:"If you could clone one employee, which one?",
-    why:"This becomes your flagship AI Employee — built first and richest.",
+  { key:"clone_this_employee", type:"single", num:"Question 9", q:"If you could clone one employee, which one?",
+    why:"Becomes your flagship AI Employee — built first and richest.",
     opts:["The salesperson who never lets a lead go cold","The scheduler","The bookkeeper who chases invoices","The 24/7 receptionist","The tireless marketer","The perfect dispatcher","The beloved success rep"] },
-  { key:"revenue_model", num:"Question 8", q:"How do you make money?",
+  { key:"revenue_model", type:"single", num:"Question 10", q:"How do you make money?",
     why:"Feeds the revenue model, pricing, and finance projection.",
     opts:["Per job / per project","Monthly recurring","Hourly","Retainer + extras","Product sales + shipping","Membership / packages","Whatever feels right (we'll fix it)"] },
-  { key:"team_size_today", num:"Question 9", q:"How big are you today?",
+  { key:"team_size_today", type:"single", num:"Question 11", q:"How big are you today?",
     why:"Feeds the starting numbers and the org chart's human headcount.",
     opts:["Just me (solo)","Me + a couple helpers (2–4)","A real team (5–15)","Established (15–50)","Starting from scratch tonight"] },
-  { key:"region", num:"Question 10", q:"Where do you operate?",
-    why:"Feeds the region, market size, and local marketing.",
-    opts:["One city / metro","A whole state or region","Nationwide","Online / anywhere"] },
-  { key:"ninety_day_goal", num:"Question 11", q:"Where do you want to be in 90 days?",
+  { key:"region", type:"text", num:"Question 12", q:"Where do you operate?",
+    why:"Feeds the service-area map, local marketing, and dispatch.",
+    placeholder:"e.g. Maple Grove, Cedar Hills & the north metro" },
+  { key:"ninety_day_goal", type:"single", num:"Question 13", q:"Where do you want to be in 90 days?",
     why:"Feeds the 30/60/90 roadmap and the growth goal.",
     opts:["Double the leads","Stop doing it all manually","Hire & onboard 2 people","Launch online booking","Open a second location","Take a real weekend off"] },
-  { key:"company_name", num:"The finale 🎉", q:"Let's name it — together.",
+  { key:"accent", type:"single", num:"Question 14", q:"Pick your brand color",
+    why:"Colaberry palette — sets your accent across the whole company.",
+    opts:["Cherry Red","Leaf Green","Berry Blue"] },
+  { key:"company_name", type:"text", num:"The finale 🎉", q:"Let's name it — together.",
     why:"Ask the room. Name it out loud. This is the peak. Then we build.",
-    opts:["Evergreen Grounds Co.","Ironclad Roofing","Lighthouse Bookkeeping","Bloom","Fetch","Haul","Cedar Creek Co."] },
+    placeholder:"e.g. Evergreen Grounds Co." },
 ];
 
-const answers = {};
-let i = 0;
-
+const answers = {}; let i = 0;
 const $ = id => document.getElementById(id);
-const bar=$("bar"), count=$("count"), qnum=$("qnum"), qtext=$("qtext"), why=$("why"),
-      options=$("options"), other=$("other"), qcard=$("qcard"), sumcard=$("sumcard");
+const bar=$("bar"),count=$("count"),qnum=$("qnum"),qtext=$("qtext"),why=$("why"),
+      inputarea=$("inputarea"),qcard=$("qcard"),sumcard=$("sumcard");
+
+/* theme toggle */
+$("toggle").textContent = document.documentElement.getAttribute('data-theme')==='dark'?'☀️':'🌙';
+$("toggle").onclick=()=>{var d=document.documentElement,n=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',n);localStorage.setItem('foundry-theme',n);$("toggle").textContent=n==='dark'?'☀️':'🌙';};
 
 function render(){
-  const item = Q[i];
-  qnum.textContent = item.num;
-  qtext.textContent = item.q;
-  why.textContent = item.why;
-  count.textContent = `${i+1} / ${Q.length}`;
-  bar.style.width = `${(i)/(Q.length)*100}%`;
-  options.innerHTML = "";
-  const current = answers[item.key];
-  const isPreset = current && item.opts.includes(current);
-  item.opts.forEach(o=>{
-    const el = document.createElement("div");
-    el.className = "opt" + (current===o ? " sel":"");
-    el.innerHTML = `<span class="dot"></span><span>${o}</span>`;
-    el.onclick = ()=>{ answers[item.key]=o; other.value=""; render(); };
-    options.appendChild(el);
+  const it=Q[i];
+  qnum.textContent=it.num; qtext.textContent=it.q; why.textContent=it.why;
+  count.textContent=`${i+1} / ${Q.length}`; bar.style.width=`${(i)/(Q.length)*100}%`;
+  inputarea.innerHTML="";
+  if(it.type==="single") renderSingle(it);
+  else if(it.type==="tags") renderTags(it);
+  else renderText(it);
+  $("back").style.visibility=i===0?"hidden":"visible";
+  $("next").textContent=i===Q.length-1?"Build it 🚀":"Next →";
+}
+function renderSingle(it){
+  const cur=answers[it.key], isPreset=cur&&it.opts.includes(cur);
+  const grid=document.createElement("div"); grid.className="options";
+  it.opts.forEach(o=>{
+    const el=document.createElement("div"); el.className="opt"+(cur===o?" sel":"");
+    el.innerHTML=`<span class="box"></span><span>${o}</span>`;
+    el.onclick=()=>{answers[it.key]=o; render();};
+    grid.appendChild(el);
   });
-  other.value = (current && !isPreset) ? current : "";
-  $("back").style.visibility = i===0 ? "hidden":"visible";
-  $("next").textContent = i===Q.length-1 ? "Build it 🚀" : "Next →";
-  other.focus();
+  inputarea.appendChild(grid);
+  const ow=document.createElement("div"); ow.className="otherwrap";
+  ow.innerHTML=`<input class="txt" id="other" placeholder="Or type your own answer…" autocomplete="off" value="${(cur&&!isPreset)?cur.replace(/"/g,'&quot;'):''}">`;
+  inputarea.appendChild(ow);
+  $("other").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();next();}});
 }
-
-function commitOther(){
-  const v = other.value.trim();
-  if(v) answers[Q[i].key] = v;
+function renderText(it){
+  const cur=answers[it.key]||"";
+  inputarea.innerHTML=`<div class="otherwrap"><input class="txt" id="tfield" placeholder="${it.placeholder||''}" autocomplete="off" value="${cur.replace(/"/g,'&quot;')}"></div>`;
+  const f=$("tfield"); f.focus();
+  f.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();next();}});
 }
-
-function next(){
-  commitOther();
-  if(i < Q.length-1){ i++; render(); }
-  else showSummary();
+function renderTags(it){
+  if(!Array.isArray(answers[it.key])) answers[it.key]=answers[it.key]?[answers[it.key]]:[];
+  const list=answers[it.key];
+  const wrap=document.createElement("div");
+  const tags=document.createElement("div"); tags.className="tags";
+  list.forEach((t,idx)=>{
+    const el=document.createElement("span"); el.className="tag";
+    el.innerHTML=`<b>${t}</b>`; const x=document.createElement("button"); x.textContent="×";
+    x.onclick=()=>{list.splice(idx,1); render();}; el.appendChild(x); tags.appendChild(el);
+  });
+  wrap.appendChild(tags);
+  const field=document.createElement("div"); field.className="tagfield";
+  field.innerHTML=`<input id="tagin" placeholder="Type a service and press Enter…" autocomplete="off">`;
+  wrap.appendChild(field);
+  if(it.suggest){
+    const s=document.createElement("div"); s.className="suggest";
+    s.innerHTML="Tap to add: ";
+    it.suggest.forEach(sg=>{ if(list.includes(sg))return;
+      const c=document.createElement("span"); c.className="chipadd"; c.textContent="+ "+sg;
+      c.onclick=()=>{list.push(sg); render();}; s.appendChild(c);
+    });
+    wrap.appendChild(s);
+  }
+  inputarea.appendChild(wrap);
+  const inp=$("tagin"); inp.focus();
+  inp.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){ e.preventDefault(); const v=inp.value.trim();
+      if(v){ list.push(v); render(); } else { next(); } }
+  });
 }
-function back(){ commitOther(); if(i>0){ i--; render(); } }
+function commit(){
+  const o=$("other"); if(o&&o.value.trim()) answers[Q[i].key]=o.value.trim();
+  const t=$("tfield"); if(t) answers[Q[i].key]=t.value.trim();
+  const g=$("tagin"); if(g&&g.value.trim()){ answers[Q[i].key].push(g.value.trim()); }
+}
+function next(){ commit(); if(i<Q.length-1){i++;render();} else showSummary(); }
+function back(){ commit(); if(i>0){i--;render();} }
+$("next").onclick=next; $("back").onclick=back;
+document.addEventListener("keydown",e=>{ if(sumcard.classList.contains("show"))return;
+  if(e.key==="Enter"){const a=document.activeElement; if(a&&(a.id==="other"||a.id==="tfield"||a.id==="tagin"))return; next();}});
 
-$("next").onclick = next;
-$("back").onclick = back;
-other.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); next(); }});
-document.addEventListener("keydown", e=>{
-  if(sumcard.classList.contains("show")) return;
-  if(e.key==="Enter" && document.activeElement!==other) next();
-});
-
+function val(k){ const v=answers[k]; return Array.isArray(v)?v.join(", "):(v||""); }
 function buildPrompt(){
-  const pad = s => (s+":").padEnd(22," ");
-  const yaml = Q.map(item=>`${pad(item.key)}${answers[item.key]||"(you pick a realistic value)"}`).join("\n");
+  const pad=s=>(s+":").padEnd(22," ");
+  const yaml=Q.map(it=>`${pad(it.key)}${val(it.key)||"(you pick a realistic value)"}`).join("\n");
   return [
     "Read BusinessGenerator.md and build the entire company now from these interview answers:",
-    "",
-    yaml,
-    "",
-    "Continue working until every artifact in the completion checklist exists and validates,",
-    "then open CommandCenter/index.html in my default browser.",
+    "", yaml, "",
+    "Use the light Colaberry theme by default (Cherry/Leaf/Berry). Build the website nav + services from the services answer,",
+    "highlight everything that came from these answers, make the CRM a Salesforce-style drag-and-drop pipeline,",
+    "add Power BI-style charts and Mermaid storytelling diagrams throughout, and include the Trust dashboard.",
+    "Build the Knowledge Base too: a typed search, the Cory chatbot grounded in the whole project, and up to 3 downloadable one-pager documents with Mermaid.",
+    "Continue until every artifact in the completion checklist validates, then open CommandCenter/index.html in my default browser.",
     "Do not ask me questions — make realistic assumptions, note them in docs/assumptions.md, and keep building until it is done."
   ].join("\n");
 }
-
 function showSummary(){
-  bar.style.width = "100%";
-  count.textContent = `${Q.length} / ${Q.length}`;
-  qcard.style.display="none";
-  sumcard.classList.add("show");
-  const rows = $("rows"); rows.innerHTML="";
-  Q.forEach(item=>{
-    const v = answers[item.key];
-    const row = document.createElement("div");
-    row.className="row";
-    row.innerHTML = `<div class="k">${item.q.replace(/\?|—.*$/,"").trim()}</div>
-      <div class="v ${v?"":"empty"}">${v || "Claude will pick a smart default"}</div>`;
+  bar.style.width="100%"; count.textContent=`${Q.length} / ${Q.length}`;
+  qcard.style.display="none"; sumcard.classList.add("show");
+  const rows=$("rows"); rows.innerHTML="";
+  Q.forEach(it=>{ const v=val(it.key);
+    const row=document.createElement("div"); row.className="row";
+    row.innerHTML=`<div class="k">${it.q.replace(/\?|—.*$/,"").trim()}</div><div class="v ${v?"":"empty"}">${v||"Claude will pick a smart default"}</div>`;
     rows.appendChild(row);
   });
-  const name = answers.company_name;
-  $("sumtitle").textContent = name ? `${name} is ready to build 🚀` : "Your company is ready to build 🚀";
-  $("yaml").value = buildPrompt();
+  const name=val("company_name");
+  $("sumtitle").textContent=name?`${name} is ready to build 🚀`:"Your company is ready to build 🚀";
+  $("prompt").value=buildPrompt();
 }
-
-$("copy").onclick = ()=>{
-  const ta = $("yaml"); ta.select(); ta.setSelectionRange(0,99999);
-  let ok=false;
-  try{ ok = document.execCommand("copy"); }catch(e){}
-  if(navigator.clipboard){ navigator.clipboard.writeText(ta.value).catch(()=>{}); ok=true; }
-  const t=$("toast"); if(ok){ t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2500); }
-};
-$("restart").onclick = ()=>{ for(const k in answers) delete answers[k]; i=0; sumcard.classList.remove("show"); qcard.style.display="block"; render(); };
+$("copy").onclick=()=>{ const ta=$("prompt"); ta.select(); ta.setSelectionRange(0,99999); let ok=false;
+  try{ok=document.execCommand("copy");}catch(e){} if(navigator.clipboard){navigator.clipboard.writeText(ta.value).catch(()=>{});ok=true;}
+  const t=$("toast"); if(ok){t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600);} };
+$("restart").onclick=()=>{ for(const k in answers)delete answers[k]; i=0; sumcard.classList.remove("show"); qcard.style.display="block"; render(); };
 
 render();
 </script>

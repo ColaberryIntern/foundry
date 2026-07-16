@@ -42,6 +42,18 @@ Each question has: the ask, *why it matters* (what it feeds), and a spread of ex
 - Escape-room design & installation
 - **Other: _______________**
 
+### 1a. What services do you offer? (list several)
+*Feeds: **the website navigation + services section.** Name as many as you like.*
+
+- (landscaping) Lawn mowing · Landscape design · Hardscape & patios · Irrigation · Seasonal cleanup · Tree & shrub care · Snow removal · Maintenance plans
+- **Add your own: _______________, _______________, _______________**
+
+### 1b. In one line — what makes you different? (your tagline)
+*Feeds: **the website hero headline.** Say it like a promise.*
+
+- e.g. "Full-service landscaping that runs itself." / "We show up, and we finish." / "Your yard, on autopilot."
+- **Your tagline: _______________**
+
 ### 2. Who are your customers?
 *Feeds: CRM sample contacts, website tone, marketing targeting.*
 
@@ -163,6 +175,11 @@ Each question has: the ask, *why it matters* (what it feeds), and a spread of ex
 
 ---
 
+### 11b. Pick your brand color 🎨
+*Feeds: the accent across the whole company (Colaberry palette).*
+
+- **Cherry Red** · **Leaf Green** · **Berry Blue**
+
 ### 12. Last one — let's name it. 🎉
 *Ask the room. Build the name together. This is the peak.*
 
@@ -183,25 +200,30 @@ Prompts to riff on:
 Copy this block, fill the blanks with the audience's answers, and leave it at the top of the file when you hand it to Claude Code. Blanks are fine — Claude Code fills gaps with realistic assumptions.
 
 ```yaml
-company_does:        # Q1
-customers:           # Q2
-lead_sources:        # Q3
-current_software:    # Q4
-biggest_time_sink:   # Q5
-keeps_me_up:         # Q6
-clone_this_employee: # Q7  <-- becomes the flagship AI Employee
-revenue_model:       # Q8
-team_size_today:     # Q9
-region:              # Q10
-ninety_day_goal:     # Q11
-company_name:        # Q12  <-- fill in LAST, with the room
+company_does:        # what the business does
+services:            # LIST, comma-separated — becomes the website nav + services section
+customers:           # who you serve
+tagline:             # one line — becomes the website hero headline
+lead_sources:        # how leads come in
+current_software:    # tools today
+biggest_time_sink:   # where the time goes
+keeps_me_up:         # the worry (feeds the Trust story)
+clone_this_employee: # <-- becomes the flagship AI Employee
+revenue_model:       # how you make money
+team_size_today:     # how big today
+region:              # where you operate (service area)
+ninety_day_goal:     # 90-day goal
+accent:              # Cherry Red | Leaf Green | Berry Blue
+company_name:        # <-- fill in LAST, with the room
 ```
 
 ### Ready-to-build sample (works out of the box for a dry run)
 
 ```yaml
 company_does:        Residential landscaping & lawn care
+services:            Lawn mowing, Landscape design, Hardscape & patios, Irrigation, Seasonal cleanup, Maintenance plans
 customers:           Homeowners and a few property managers in the suburbs
+tagline:             Full-service landscaping that runs itself.
 lead_sources:        Referrals, Google maps, a truck wrap
 current_software:    Spreadsheets and QuickBooks
 biggest_time_sink:   Writing quotes and chasing invoices
@@ -209,8 +231,9 @@ keeps_me_up:         Cash flow and not enough steady leads in winter
 clone_this_employee: The salesperson who never lets a lead go cold
 revenue_model:       Per job plus seasonal maintenance plans
 team_size_today:     Me plus 3 crew
-region:              One metro area
+region:              Maple Grove, Cedar Hills & the north metro
 ninety_day_goal:     Double leads and launch online booking
+accent:              Leaf Green
 company_name:        Evergreen Grounds Co.
 ```
 

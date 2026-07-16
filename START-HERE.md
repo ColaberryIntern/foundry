@@ -10,22 +10,27 @@ The operator gave you the URL of this file. Do the steps below **in order, right
 Run these commands (they work on Windows, macOS, and Linux — `curl` is built in):
 
 ```bash
-curl -sL --create-dirs -o BusinessGenerator.md        https://raw.githubusercontent.com/ColaberryIntern/foundry/main/BusinessGenerator.md
-curl -sL --create-dirs -o interview.md                https://raw.githubusercontent.com/ColaberryIntern/foundry/main/interview.md
-curl -sL --create-dirs -o Interview.html              https://raw.githubusercontent.com/ColaberryIntern/foundry/main/Interview.html
-curl -sL --create-dirs -o templates/command-center.html https://raw.githubusercontent.com/ColaberryIntern/foundry/main/templates/command-center.html
+B=https://raw.githubusercontent.com/ColaberryIntern/foundry/main
+curl -sL --create-dirs -o BusinessGenerator.md          $B/BusinessGenerator.md
+curl -sL --create-dirs -o interview.md                  $B/interview.md
+curl -sL --create-dirs -o Interview.html                $B/Interview.html
+curl -sL --create-dirs -o templates/command-center.html $B/templates/command-center.html
+curl -sL --create-dirs -o assets/theme.css              $B/assets/theme.css
+curl -sL --create-dirs -o assets/mermaid.min.js         $B/assets/mermaid.min.js
 ```
 
 If `curl` is unavailable, use PowerShell instead:
 
 ```powershell
 $b="https://raw.githubusercontent.com/ColaberryIntern/foundry/main"
-New-Item -ItemType Directory -Force templates | Out-Null
+New-Item -ItemType Directory -Force templates,assets | Out-Null
 "BusinessGenerator.md","interview.md","Interview.html" | % { Invoke-WebRequest "$b/$_" -OutFile $_ }
 Invoke-WebRequest "$b/templates/command-center.html" -OutFile "templates/command-center.html"
+Invoke-WebRequest "$b/assets/theme.css" -OutFile "assets/theme.css"
+Invoke-WebRequest "$b/assets/mermaid.min.js" -OutFile "assets/mermaid.min.js"
 ```
 
-Confirm all four files exist before continuing. If any download failed, retry that one file, then proceed.
+Confirm all six files exist (`assets/mermaid.min.js` is ~2.7 MB). If any download failed, retry that one file, then proceed. The generated company copies `assets/theme.css` and `assets/mermaid.min.js` into itself — do not regenerate them.
 
 ## STEP 2 — Open the interview in the operator's browser NOW
 

@@ -2,7 +2,7 @@
 
 **You're not watching me code. You're watching me build a company in real time.** 🚀
 
-Foundry turns one sentence from an audience member — *"I own a landscaping company"* — into a complete, clickable, running AI company: dashboards, a website, a CRM, portals, a 25+ AI/human workforce, automations, a database, a finance model, a roadmap, and a source-code scaffold — all unified by a single **Command Center** that opens in the browser at the reveal.
+Foundry turns one sentence from an audience member — *"I own a landscaping company"* — into a complete, clickable, running AI company: a redesigned marketing **website** (hero + your services in the nav), executive **dashboards**, a Salesforce-style drag-and-drop **CRM**, a **Trust dashboard** (INPACT / GOALS), a searchable **Knowledge Base** with the **Cory** chatbot and downloadable one-pagers, a 25+ AI/human **workforce**, a business-process **database**, a **finance model**, a **roadmap**, and a source scaffold — all in the **light Colaberry brand** (Cherry/Leaf/Berry, with a dark toggle), rich with **Mermaid** storytelling diagrams, and unified by a single **Command Center** that opens in the browser at the reveal. Every answer the audience gives is **highlighted** across the company.
 
 Then you turn to the room and say: *"That took twelve minutes. Our students spend twelve weeks learning to build it. This isn't the project — this is **Lesson One**."*
 
