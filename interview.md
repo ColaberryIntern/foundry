@@ -202,20 +202,14 @@ Copy this block, fill the blanks with the audience's answers, and leave it at th
 ```yaml
 company_does:        # what the business does
 services:            # LIST, comma-separated — becomes the website nav + services section
-customers:           # who you serve
+customers:           # who you serve — shows on the website + CRM
 tagline:             # one line — becomes the website hero headline
-lead_sources:        # how leads come in
-current_software:    # tools today
-biggest_time_sink:   # where the time goes
-keeps_me_up:         # the worry (feeds the Trust story)
 clone_this_employee: # <-- becomes the flagship AI Employee
-revenue_model:       # how you make money
-team_size_today:     # how big today
-region:              # where you operate (service area)
-ninety_day_goal:     # 90-day goal
 accent:              # Cherry Red | Leaf Green | Berry Blue
 company_name:        # <-- fill in LAST, with the room
 ```
+
+*(Only 7 questions now — the ones you'll actually see when you walk the Command Center. Everything else, e.g. region, pricing, team size, and the roadmap, is inferred from the industry.)*
 
 ### Ready-to-build sample (works out of the box for a dry run)
 
@@ -224,15 +218,7 @@ company_does:        Residential landscaping & lawn care
 services:            Lawn mowing, Landscape design, Hardscape & patios, Irrigation, Seasonal cleanup, Maintenance plans
 customers:           Homeowners and a few property managers in the suburbs
 tagline:             Full-service landscaping that runs itself.
-lead_sources:        Referrals, Google maps, a truck wrap
-current_software:    Spreadsheets and QuickBooks
-biggest_time_sink:   Writing quotes and chasing invoices
-keeps_me_up:         Cash flow and not enough steady leads in winter
 clone_this_employee: The salesperson who never lets a lead go cold
-revenue_model:       Per job plus seasonal maintenance plans
-team_size_today:     Me plus 3 crew
-region:              Maple Grove, Cedar Hills & the north metro
-ninety_day_goal:     Double leads and launch online booking
 accent:              Leaf Green
 company_name:        Evergreen Grounds Co.
 ```
