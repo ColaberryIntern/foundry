@@ -111,6 +111,8 @@
   .tk-v{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px}
   .tk-chip{background:var(--green-50);color:var(--green-600);border:1px solid var(--green-500);border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600}
   .tk-none{margin-top:3px;font-size:12px;color:var(--n500);font-style:italic}
+  .tk-clearbtn{margin:2px 0 16px;font:inherit;font-size:12px;font-weight:700;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:8px 10px;cursor:pointer;width:100%;transition:.15s}
+  .tk-clearbtn:hover{border-color:var(--red-500);color:var(--red-500);background:var(--red-50)}
   .stage{flex:1;min-width:0;display:block;padding:0}
   .stage .card{width:auto}
   @media(max-width:900px){.layout{flex-direction:column}.tracker{width:auto;position:static;max-height:none;order:2}.stage{order:1;width:100%}}
@@ -365,6 +367,7 @@ function renderTracker(){
   const name=val("company_name");
   let h='<h3>Our company so far</h3><div class="co">'+(name?esc(name):'<span class="tk-none" style="font-size:16px">Unnamed for now</span>')+'</div>';
   h+='<div class="locked">'+locked+' / '+Q.length+' locked in</div>';
+  h+='<button class="tk-clearbtn" onclick="clearData()">🗑 Clear all answers &amp; start over</button>';
   Q.forEach((q,idx)=>{
     const v=val(q.key), done=!!v, cur=idx===i;
     h+='<div class="tk-item '+(cur?'current ':'')+(done?'done':'')+'" onclick="jumpTo('+idx+')">';
@@ -376,6 +379,14 @@ function renderTracker(){
   t.innerHTML=h;
 }
 function jumpTo(n){ commit(); i=n; render(); }
+function clearData(){
+  if(!confirm('Clear all the room’s picks and start over?\n\nYour saved API key and theme are kept.')) return;
+  for(var k in answers) delete answers[k];
+  i=0;
+  try{ localStorage.removeItem('foundry-answers'); localStorage.removeItem('foundry-i'); }catch(e){}
+  sumcard.classList.remove('show'); qcard.style.display='block'; genState.err=null;
+  render();
+}
 function renderMulti(it){
   if(!Array.isArray(answers[it.key])) answers[it.key]=[];
   const list=answers[it.key];
